@@ -35,8 +35,8 @@ public class OverlayNodeSendsRegistration extends Event {
         return marshalledBytes;
     }
     
-    public OverlayNodeSendsRegistration(byte type, byte[] ipAddress, int portNum) {
-        this.type = type;
+    public OverlayNodeSendsRegistration(byte[] ipAddress, int portNum) {
+        this.type = Protocol.OVERLAY_NODE_SENDS_REGISTRATION;
         this.ipAddress = ipAddress;
         this.portNum = portNum;
     }
