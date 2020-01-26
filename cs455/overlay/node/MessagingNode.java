@@ -5,7 +5,10 @@ import java.net.InetAddress;
 public class MessagingNode {
     
     public static void main(String[] args) {
+        
+        
         System.out.println("Hello from the Messaging Node!");
+        
     }
     
     //public void start() {
