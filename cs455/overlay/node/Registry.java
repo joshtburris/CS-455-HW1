@@ -1,16 +1,19 @@
 package cs455.overlay.node;
 
+import cs455.overlay.transport.TCPConnection;
 import cs455.overlay.transport.TCPServerThread;
 import cs455.overlay.routing.*;
+import cs455.overlay.wireformats.Event;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 import java.net.*;
+import java.util.TreeMap;
 
-public class Registry {
+public class Registry implements Node {
 
-    // Check if node has been previously registered
-    // Ensure the IP Address matches the address where the request originated.
+    
     
     // If no errors:
     //MessagingNode.sendByte(MessageType.REGISTRY_REPORTS_REGISTRATION_STATUS);
@@ -18,21 +21,19 @@ public class Registry {
     //MessagingNode.sendByteList(INetAddress.getAddress());
     //MessagingNode.sendInt(/*Port number*/);
     
-    private static int portNum;
-    private static ServerSocket serverSocket;
+    private int portNum;
+    private ServerSocket serverSocket;
     //private static Thread tcpServerThread;
-    private static RoutingTable routingTable;
+    private ArrayList<RoutingEntry> routingEntries;
+    private TreeMap<Integer, TCPConnection> messagingNodeConnections;
     
-    private static byte uniqueID = 0;
-    private static byte getUniqueID() { return uniqueID++; }
+    private volatile boolean threadExit;
     
-    public static void main(String[] args) {
-        
-        // Take in the port number from the command line
-        portNum = Integer.parseInt(args[0]);
-        
-        // Initialize routing table
-        routingTable = new RoutingTable();
+    private byte uniqueID = 0;
+    private byte getUniqueID() { return uniqueID++; }
+    
+    public Registry(int portNum) {
+        this.portNum = portNum;
     
         // Initialize the serverSocket starting with port portNum, increasing the portNum until one doesn't give an
         // exception.
@@ -43,25 +44,42 @@ public class Registry {
                 ++portNum;
             }
         }
-        System.out.println("Registry was assigned port number "+ portNum +".");
+        System.out.println("Registry was assigned port number ("+ portNum +").");
     
-        //tcpServerThread = new Thread(new TCPServerThread());
-        //tcpServerThread.start();
-        
+        // Start a thread that accepts new messaging nodes into the serverSocket and adds them to the list of
+        // messaging node connections, as well as the list of table entries to keep their information.
+        threadExit = false;
         Thread thread = new Thread(() ->  {
-            while (true) {
+            while (!threadExit) {
                 try {
-        
+                
+                    // Accept a new connection to the server and create a socket
                     Socket socket = serverSocket.accept();
+                    
+                    int id = getUniqueID();
+                    messagingNodeConnections.put(id, new TCPConnection(this, socket));
+    
+                    // Check if node has been previously registered
+                    // Ensure the IP Address matches the address where the request originated.
+                
                     RoutingEntry routingEntry = new RoutingEntry(socket);
                     routingTable.addEntry(routingEntry, getUniqueID());
-        
+                
                 } catch (IOException ioe) {
                     System.out.println(ioe.getMessage());
                 }
             }
         });
         thread.start();
+    }
+    
+    public static void main(String[] args) {
+    
+        // Take in the port number from the command line
+        int portNum = Integer.parseInt(args[0]);
+        
+        // Create a registry
+        Registry registry = new Registry(portNum);
         
         // Continuously check for console commands until none is given
         Scanner in = new Scanner(System.in);
@@ -69,23 +87,23 @@ public class Registry {
         System.out.print(">>> ");
         while (!(line = in.nextLine().trim()).isEmpty()) {
             // Process console command and break when an exit status is returned
-            if (processConsoleCommand(line) == 1)
+            if (!processConsoleCommand(registry, line))
                 break;
             System.out.print(">>> ");
         }
-        
-        thread.interrupt();
+    
+        registry.threadExit = true;
     }
     
-    // Returns command status: 0 for continue processing another command, 1 for stop processing commands.
-    private static int processConsoleCommand(String line) {
+    // Returns command status: 'false' for continue processing another command, 'true' for stop processing commands.
+    private static boolean processConsoleCommand(Registry registry, String line) {
         String[] data = line.split(" ");
     
         switch (data[0]) {
             case "list-messaging-nodes":
                 // This should result in information about the messaging nodes (hostname, port-number, and node ID)
                 // being listed. Information for each messaging node should be listed on a separate line.
-                routingTable.listMessagingNodes();
+                
                 break;
             case "setup-overlay":
                 // This should result in the registry setting up the overlay. It does so by sending every messaging
@@ -115,10 +133,13 @@ public class Registry {
             
                 break;
             case "exit": case "quit": case "stop":
-                return 1;
+                return false;
         }
         
-        return 0;
+        return true;
     }
-
+    
+    public void onEvent(Event event) {
+    
+    }
 }

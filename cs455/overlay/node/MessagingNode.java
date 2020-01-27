@@ -1,8 +1,14 @@
 package cs455.overlay.node;
 
+import cs455.overlay.wireformats.Event;
+
 import java.net.InetAddress;
 
-public class MessagingNode {
+public class MessagingNode implements Node {
+    
+    public void onEvent(Event event) {
+    
+    }
     
     public static void main(String[] args) {
         

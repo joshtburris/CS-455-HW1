@@ -4,11 +4,10 @@ import java.io.*;
 
 public class OverlayNodeSendsRegistration extends Event {
     
-    private byte type;
     private byte[] ipAddress;
     private int portNum;
     
-    public byte getType() { return type; }
+    public byte getType() { return Protocol.OVERLAY_NODE_SENDS_REGISTRATION; }
     public byte[] getIpAddress() { return ipAddress; }
     public int getPortNum() { return portNum; }
     
@@ -19,7 +18,7 @@ public class OverlayNodeSendsRegistration extends Event {
         ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
         
-        dout.writeByte(type);
+        dout.writeByte(getType());
         
         dout.writeByte(ipAddress.length);
         dout.write(ipAddress);
@@ -36,7 +35,6 @@ public class OverlayNodeSendsRegistration extends Event {
     }
     
     public OverlayNodeSendsRegistration(byte[] ipAddress, int portNum) {
-        this.type = Protocol.OVERLAY_NODE_SENDS_REGISTRATION;
         this.ipAddress = ipAddress;
         this.portNum = portNum;
     }

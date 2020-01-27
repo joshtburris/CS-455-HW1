@@ -1,21 +1,29 @@
 package cs455.overlay.transport;
 
 import cs455.overlay.wireformats.*;
+import cs455.overlay.node.*;
 
 import java.io.*;
 import java.net.*;
 
 public class TCPConnection {
     
-    public TCPSender sender;
-    public TCPReceiverThread receiver;
+    private Node node;
+    private TCPSender sender;
+    private TCPReceiverThread receiver;
+    private Thread receiverThread;
     
-    public TCPConnection(Socket socket) throws IOException {
+    public TCPConnection(Node node, Socket socket) throws IOException {
+        this.node = node;
         sender = new TCPSender(socket);
         receiver = new TCPReceiverThread(socket);
+        receiverThread = new Thread(receiver);
+        receiverThread.start();
     }
     
-    public class TCPSender {
+    public void sendData(byte[] data) throws IOException { sender.sendData(data); }
+    
+    private class TCPSender {
         
         private Socket socket;
         private DataOutputStream dout;
@@ -34,7 +42,7 @@ public class TCPConnection {
         
     }
     
-    public class TCPReceiverThread extends Thread {
+    private class TCPReceiverThread implements Runnable {
         
         private Socket socket;
         private DataInputStream din;
@@ -50,14 +58,15 @@ public class TCPConnection {
             while (socket != null) {
                 try {
                     
-                    // TODO:This is where functionality goes
+                    // Read in all of the data from stream
                     len = din.readInt();
                     byte[] data = new byte[len];
                     din.readFully(data, 0, len);
                     
-                    // Get event
+                    // Create an event from the EventFactory class using the data we just got from the stream
+                    // and call the onEvent function for the node
                     Event event = EventFactory.getEvent(data);
-                    System.out.println("TCPReceiverThread got a new event: "+ event.getType());
+                    node.onEvent(event);
                     
                 } catch (SocketException se) {
                     System.out.println(se.getMessage());
