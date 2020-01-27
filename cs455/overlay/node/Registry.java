@@ -1,5 +1,8 @@
 package cs455.overlay.node;
 
+import cs455.overlay.transport.TCPServerThread;
+import cs455.overlay.routing.*;
+
 import java.util.Scanner;
 import java.io.*;
 import java.net.*;
@@ -15,17 +18,24 @@ public class Registry {
     //MessagingNode.sendByteList(INetAddress.getAddress());
     //MessagingNode.sendInt(/*Port number*/);
     
-    public static int portNum;
+    private static int portNum;
     private static ServerSocket serverSocket;
+    //private static Thread tcpServerThread;
+    private static RoutingTable routingTable;
     
-    private byte uniqueID = 0;
-    private byte getUniqueID() { return uniqueID++; }
+    private static byte uniqueID = 0;
+    private static byte getUniqueID() { return uniqueID++; }
     
     public static void main(String[] args) {
         
         // Take in the port number from the command line
         portNum = Integer.parseInt(args[0]);
+        
+        // Initialize routing table
+        routingTable = new RoutingTable();
     
+        // Initialize the serverSocket starting with port portNum, increasing the portNum until one doesn't give an
+        // exception.
         while (serverSocket == null) {
             try {
                 serverSocket = new ServerSocket(portNum, 100);
@@ -33,9 +43,25 @@ public class Registry {
                 ++portNum;
             }
         }
-        System.out.println("We were given port number "+ portNum +".");
+        System.out.println("Registry was assigned port number "+ portNum +".");
+    
+        //tcpServerThread = new Thread(new TCPServerThread());
+        //tcpServerThread.start();
         
+        Thread thread = new Thread(() ->  {
+            while (true) {
+                try {
         
+                    Socket socket = serverSocket.accept();
+                    RoutingEntry routingEntry = new RoutingEntry(socket);
+                    routingTable.addEntry(routingEntry, getUniqueID());
+        
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
+            }
+        });
+        thread.start();
         
         // Continuously check for console commands until none is given
         Scanner in = new Scanner(System.in);
@@ -48,6 +74,7 @@ public class Registry {
             System.out.print(">>> ");
         }
         
+        thread.interrupt();
     }
     
     // Returns command status: 0 for continue processing another command, 1 for stop processing commands.
@@ -58,7 +85,7 @@ public class Registry {
             case "list-messaging-nodes":
                 // This should result in information about the messaging nodes (hostname, port-number, and node ID)
                 // being listed. Information for each messaging node should be listed on a separate line.
-            
+                routingTable.listMessagingNodes();
                 break;
             case "setup-overlay":
                 // This should result in the registry setting up the overlay. It does so by sending every messaging
@@ -84,7 +111,7 @@ public class Registry {
                 // The start command results in the registry sending the REGISTRY_REQUESTS_TASK_INITIATE to all
                 // nodes within the overlay. A command of start 25000 results in each messaging node sending 25000
                 // packets to nodes chosen at random (of course, a node should not send a packet to itself)
-            
+                int numMessages = Integer.parseInt(data[1]);
             
                 break;
             case "exit": case "quit": case "stop":

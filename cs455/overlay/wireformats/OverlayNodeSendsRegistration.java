@@ -41,12 +41,12 @@ public class OverlayNodeSendsRegistration extends Event {
         this.portNum = portNum;
     }
     
-    public OverlayNodeSendsRegistration(byte[] marshalledBytes) throws IOException {
+    public OverlayNodeSendsRegistration(ByteArrayInputStream baInputStream, DataInputStream din) throws IOException {
         
-        ByteArrayInputStream baInputStream = new ByteArrayInputStream(marshalledBytes);
+        /*ByteArrayInputStream baInputStream = new ByteArrayInputStream(marshalledBytes);
         DataInputStream din = new DataInputStream(new BufferedInputStream(baInputStream));
         
-        type = din.readByte();
+        type = din.readByte();*/
         
         byte len = din.readByte();
         ipAddress = new byte[len];

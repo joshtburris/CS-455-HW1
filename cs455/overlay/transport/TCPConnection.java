@@ -1,9 +1,19 @@
 package cs455.overlay.transport;
 
+import cs455.overlay.wireformats.*;
+
 import java.io.*;
 import java.net.*;
 
 public class TCPConnection {
+    
+    public TCPSender sender;
+    public TCPReceiverThread receiver;
+    
+    public TCPConnection(Socket socket) throws IOException {
+        sender = new TCPSender(socket);
+        receiver = new TCPReceiverThread(socket);
+    }
     
     public class TCPSender {
         
@@ -44,6 +54,10 @@ public class TCPConnection {
                     len = din.readInt();
                     byte[] data = new byte[len];
                     din.readFully(data, 0, len);
+                    
+                    // Get event
+                    Event event = EventFactory.getEvent(data);
+                    System.out.println("TCPReceiverThread got a new event: "+ event.getType());
                     
                 } catch (SocketException se) {
                     System.out.println(se.getMessage());
