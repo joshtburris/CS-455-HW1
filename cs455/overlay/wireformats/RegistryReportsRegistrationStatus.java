@@ -5,11 +5,11 @@ import java.io.*;
 public class RegistryReportsRegistrationStatus extends Event {
 
     private int nodeId;
-    private byte[] ipAddress;
+    private String informationString;
     
     public byte getType() { return Protocol.REGISTRY_REPORTS_REGISTRATION_STATUS; }
     public int getNodeId() { return nodeId; }
-    public byte[] getIpAddress() { return ipAddress; }
+    public String getInformationString() { return informationString; }
     
     public byte[] getBytes() throws IOException {
         
@@ -21,9 +21,10 @@ public class RegistryReportsRegistrationStatus extends Event {
         dout.writeByte(getType());
         
         dout.writeInt(nodeId);
-        
-        dout.writeByte(ipAddress.length);
-        dout.write(ipAddress);
+    
+        byte[] informationStringBytes = informationString.getBytes();
+        dout.writeByte(informationStringBytes.length);
+        dout.write(informationStringBytes);
         
         dout.flush();
         marshalledBytes = baOutputStream.toByteArray();
@@ -34,9 +35,9 @@ public class RegistryReportsRegistrationStatus extends Event {
         return marshalledBytes;
     }
     
-    public RegistryReportsRegistrationStatus(int nodeId, byte[] ipAddress) {
+    public RegistryReportsRegistrationStatus(int nodeId, String informationString) {
         this.nodeId = nodeId;
-        this.ipAddress = ipAddress;
+        this.informationString = informationString;
     }
     
     public RegistryReportsRegistrationStatus(ByteArrayInputStream baInputStream, DataInputStream din)
@@ -45,8 +46,9 @@ public class RegistryReportsRegistrationStatus extends Event {
         nodeId = din.readInt();
         
         byte len = din.readByte();
-        ipAddress = new byte[len];
-        din.readFully(ipAddress);
+        byte[] informationStringBytes = new byte[len];
+        din.readFully(informationStringBytes);
+        informationString = new String(informationStringBytes);
         
         baInputStream.close();
         din.close();

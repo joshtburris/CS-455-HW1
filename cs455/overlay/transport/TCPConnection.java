@@ -9,12 +9,14 @@ import java.net.*;
 public class TCPConnection {
     
     private Node node;
+    private Socket socket;
     private TCPSender sender;
     private TCPReceiverThread receiver;
     private Thread receiverThread;
     
     public TCPConnection(Node node, Socket socket) throws IOException {
         this.node = node;
+        this.socket = socket;
         sender = new TCPSender(socket);
         receiver = new TCPReceiverThread(socket);
         receiverThread = new Thread(receiver);
@@ -22,6 +24,8 @@ public class TCPConnection {
     }
     
     public void sendData(byte[] data) throws IOException { sender.sendData(data); }
+    
+    public byte[] getIpAddress() { return socket.getInetAddress().getAddress(); }
     
     private class TCPSender {
         

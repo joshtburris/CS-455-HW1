@@ -4,6 +4,8 @@ import cs455.overlay.transport.TCPConnection;
 import cs455.overlay.transport.TCPServerThread;
 import cs455.overlay.routing.*;
 import cs455.overlay.wireformats.Event;
+import cs455.overlay.wireformats.OverlayNodeSendsRegistration;
+import cs455.overlay.wireformats.RegistryReportsRegistrationStatus;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,20 +14,10 @@ import java.net.*;
 import java.util.TreeMap;
 
 public class Registry implements Node {
-
     
-    
-    // If no errors:
-    //MessagingNode.sendByte(MessageType.REGISTRY_REPORTS_REGISTRATION_STATUS);
-    //MessagingNode.sendInt(/*Length of IP Address*/);
-    //MessagingNode.sendByteList(INetAddress.getAddress());
-    //MessagingNode.sendInt(/*Port number*/);
-    
-    private int portNum;
     private ServerSocket serverSocket;
-    //private static Thread tcpServerThread;
-    private ArrayList<RoutingEntry> routingEntries;
-    private TreeMap<Integer, TCPConnection> messagingNodeConnections;
+    private ArrayList<RoutingTable> routingTables;
+    private TreeMap<String, TCPConnection> messagingNodeConnections;
     
     private volatile boolean threadExit;
     
@@ -33,7 +25,8 @@ public class Registry implements Node {
     private byte getUniqueID() { return uniqueID++; }
     
     public Registry(int portNum) {
-        this.portNum = portNum;
+        routingTables = new ArrayList<>();
+        messagingNodeConnections = new TreeMap<>();
     
         // Initialize the serverSocket starting with port portNum, increasing the portNum until one doesn't give an
         // exception.
@@ -56,15 +49,10 @@ public class Registry implements Node {
                     // Accept a new connection to the server and create a socket
                     Socket socket = serverSocket.accept();
                     
-                    int id = getUniqueID();
-                    messagingNodeConnections.put(id, new TCPConnection(this, socket));
-    
-                    // Check if node has been previously registered
-                    // Ensure the IP Address matches the address where the request originated.
-                
-                    RoutingEntry routingEntry = new RoutingEntry(socket);
-                    routingTable.addEntry(routingEntry, getUniqueID());
-                
+                    String key = socket.getRemoteSocketAddress() +"\t"+ socket.getPort();
+                    messagingNodeConnections.put(key, new TCPConnection(this, socket));
+                    System.out.println("New connection: "+ key);
+                    
                 } catch (IOException ioe) {
                     System.out.println(ioe.getMessage());
                 }
@@ -74,7 +62,7 @@ public class Registry implements Node {
     }
     
     public static void main(String[] args) {
-    
+        
         // Take in the port number from the command line
         int portNum = Integer.parseInt(args[0]);
         
@@ -140,6 +128,65 @@ public class Registry implements Node {
     }
     
     public void onEvent(Event event) {
-    
+        
+        if (event instanceof OverlayNodeSendsRegistration) {
+            registerMessagingNode((OverlayNodeSendsRegistration)event);
+        }
+        
     }
+    
+    private void registerMessagingNode(OverlayNodeSendsRegistration registration) {
+    
+        String nodeKey = registration.getIpAddress() +"\t"+ registration.getPortNum();
+        TCPConnection messagingNode = messagingNodeConnections.get(nodeKey);
+        
+        // Check if node has been previously registered
+        for (RoutingTable entry : routingTables) {
+            if (entry.isRegistered() && entry.getIpAddress() == registration.getIpAddress()
+                    && entry.getPortNum() == registration.getPortNum()) {
+    
+                RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(-1,
+                        "Registration request unsuccessful. You have already registered with the registry.");
+    
+                try {
+                    messagingNode.sendData(report.getBytes());
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
+                return;
+            }
+        }
+        
+        // Ensure the IP Address matches the address where the request originated.
+        if (registration.getIpAddress() != messagingNode.getIpAddress()) {
+            
+            RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(-1,
+                    "Registration request unsuccessful. Sender's IP address did not match what was given.");
+    
+            try {
+                messagingNode.sendData(report.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+            return;
+        }
+        
+        // Register a new messaging node
+        byte nodeId = getUniqueID();
+        RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(nodeId, "Registration " +
+                "request successful. The number of messaging nodes currently constituting the overlay is ("+
+                routingTables.size() +")");
+    
+        try {
+            messagingNode.sendData(report.getBytes());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        
+        // Add a new entry to the list of routing tables
+        RoutingTable newEntry = new RoutingTable(registration.getIpAddress(), registration.getPortNum(),
+                nodeId);
+        routingTables.add(newEntry);
+    }
+    
 }
