@@ -17,6 +17,14 @@ public class TCPConnection {
     public TCPConnection(Node node, Socket socket) throws IOException {
         this.node = node;
         this.socket = socket;
+        this.localIpAddress = socket.getLocalAddress().getAddress();
+        
+        try {
+            remoteIpAddress = Inet4Address.getByName(socket.getRemoteSocketAddress().toString()).getAddress();
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        
         sender = new TCPSender(socket);
         receiver = new TCPReceiverThread(socket);
         receiverThread = new Thread(receiver);
@@ -25,7 +33,17 @@ public class TCPConnection {
     
     public void sendData(byte[] data) throws IOException { sender.sendData(data); }
     
-    public byte[] getIpAddress() { return socket.getInetAddress().getAddress(); }
+    public byte[] localIpAddress;
+    public byte[] getLocalIpAddress() { return localIpAddress; }
+    
+    private int localPortnum;
+    public int getLocalPortnum() { return localPortnum; }
+    
+    private byte[] remoteIpAddress;
+    public byte[] getRemoteIpAddress() { return remoteIpAddress; }
+    
+    private int remotePortnum;
+    public int getRemotePortnum() { return remotePortnum; }
     
     private class TCPSender {
         
