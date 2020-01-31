@@ -13,12 +13,7 @@ public class RoutingTable {
     private byte nodeId;
     public byte getNodeId() { return nodeId; }
     
-    private boolean registered;
-    public boolean isRegistered() { return registered; }
-    public void deregister() { registered = false; }
-    
     public RoutingTable(byte[] ipAddress, int portNum, byte nodeId) {
-        registered = true;
         this.ipAddress = ipAddress;
         this.portNum = portNum;
         this.nodeId = nodeId;

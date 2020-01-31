@@ -1,5 +1,6 @@
 package cs455.overlay.transport;
 
+import cs455.overlay.util.IpAddressParser;
 import cs455.overlay.wireformats.*;
 import cs455.overlay.node.*;
 
@@ -17,10 +18,17 @@ public class TCPConnection {
     public TCPConnection(Node node, Socket socket) throws IOException {
         this.node = node;
         this.socket = socket;
-        this.localIpAddress = socket.getLocalAddress().getAddress();
+        localIpAddress = socket.getLocalAddress().getAddress();
+        // We have to use the byte array to get the IP string or else they won't match. i.e. 129 = -127.
+        localIpAddressString = IpAddressParser.parseByteArray(localIpAddress);
+        localPortnum = socket.getLocalPort();
         
+        String[] remoteSocketAddress = socket.getRemoteSocketAddress().toString().split(":");
+        remotePortnum = Integer.parseInt(remoteSocketAddress[1]);
+
         try {
-            remoteIpAddress = Inet4Address.getByName(socket.getRemoteSocketAddress().toString()).getAddress();
+            remoteIpAddress = Inet4Address.getByName(remoteSocketAddress[0].split("/")[1]).getAddress();
+            remoteIpAddressString = IpAddressParser.parseByteArray(remoteIpAddress);
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
@@ -33,17 +41,21 @@ public class TCPConnection {
     
     public void sendData(byte[] data) throws IOException { sender.sendData(data); }
     
-    public byte[] localIpAddress;
-    public byte[] getLocalIpAddress() { return localIpAddress; }
-    
+    private byte[] localIpAddress;
+    private String localIpAddressString;
     private int localPortnum;
-    public int getLocalPortnum() { return localPortnum; }
-    
     private byte[] remoteIpAddress;
-    public byte[] getRemoteIpAddress() { return remoteIpAddress; }
-    
+    private String remoteIpAddressString;
     private int remotePortnum;
+    
+    public byte[] getLocalIpAddress() { return localIpAddress; }
+    public String getLocalIpAddressString() { return localIpAddressString; }
+    public int getLocalPortnum() { return localPortnum; }
+    public byte[] getRemoteIpAddress() { return remoteIpAddress; }
+    public String getRemoteIpAddressString() { return remoteIpAddressString; }
     public int getRemotePortnum() { return remotePortnum; }
+    public String getLocalSocketAddress() { return localIpAddressString +":"+ localPortnum; }
+    public String getRemoteSocketAddress() { return remoteIpAddressString +":"+ remotePortnum; }
     
     private class TCPSender {
         
