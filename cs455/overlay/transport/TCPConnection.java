@@ -57,6 +57,9 @@ public class TCPConnection {
     public String getLocalSocketAddress() { return localIpAddressString +":"+ localPortnum; }
     public String getRemoteSocketAddress() { return remoteIpAddressString +":"+ remotePortnum; }
     
+    public boolean isClosed() { return socket.isClosed(); }
+    public void close() throws IOException { socket.close(); }
+    
     private class TCPSender {
         
         private Socket socket;
@@ -89,7 +92,7 @@ public class TCPConnection {
         public void run() {
             
             int len;
-            while (socket != null) {
+            while (socket != null && !socket.isClosed()) {
                 try {
                     
                     // Read in all of the data from stream

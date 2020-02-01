@@ -1,16 +1,21 @@
 package cs455.overlay.node;
 
+import cs455.overlay.routing.RoutingTable;
 import cs455.overlay.transport.TCPConnection;
+import cs455.overlay.transport.TCPConnectionsCache;
+import cs455.overlay.transport.TCPServerThread;
 import cs455.overlay.wireformats.*;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class MessagingNode implements Node {
     
-    public TCPConnection registryConnection;
-    private volatile boolean threadExit;
+    private TCPConnection registry;
+    private TCPServerThread serverThread;
+    private RoutingTable routingTable;
+    private TCPConnectionsCache connectionsCache;
     
     public MessagingNode(String hostname, int portnum) {
         
@@ -18,12 +23,12 @@ public class MessagingNode implements Node {
         try {
         
             Socket socket = new Socket(hostname, portnum);
-            registryConnection = new TCPConnection(this, socket);
+            registry = new TCPConnection(this, socket);
         
-            OverlayNodeSendsRegistration regi = new OverlayNodeSendsRegistration(
-                    registryConnection.getLocalIpAddress(), registryConnection.getLocalPortnum());
-        
-            registryConnection.sendData(regi.getBytes());
+            OverlayNodeSendsRegistration reg = new OverlayNodeSendsRegistration(
+                    registry.getLocalIpAddress(), registry.getLocalPortnum());
+    
+            registry.sendData(reg.getBytes());
         
         } catch (UnknownHostException uhe) {
             System.out.println(uhe.getMessage());
