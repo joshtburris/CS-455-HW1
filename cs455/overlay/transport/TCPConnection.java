@@ -106,11 +106,9 @@ public class TCPConnection {
                     node.onEvent(event);
                     
                 } catch (SocketException se) {
-                    System.out.println(se.getMessage());
-                    break;
+                    // Do nothing
                 } catch (IOException ioe) {
-                    System.out.println(ioe.getMessage());
-                    break;
+                    // Do nothing
                 }
             }
         }
