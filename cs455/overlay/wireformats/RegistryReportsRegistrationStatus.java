@@ -4,11 +4,11 @@ import java.io.*;
 
 public class RegistryReportsRegistrationStatus extends Event {
 
-    private int nodeId;
+    private byte nodeId;
     private String informationString;
     
     public byte getType() { return Protocol.REGISTRY_REPORTS_REGISTRATION_STATUS; }
-    public int getNodeId() { return nodeId; }
+    public byte getNodeId() { return nodeId; }
     public String getInformationString() { return informationString; }
     
     public byte[] getBytes() throws IOException {
@@ -20,7 +20,7 @@ public class RegistryReportsRegistrationStatus extends Event {
         
         dout.writeByte(getType());
         
-        dout.writeInt(nodeId);
+        dout.writeByte(nodeId);
     
         byte[] informationStringBytes = informationString.getBytes();
         dout.writeByte(informationStringBytes.length);
@@ -35,7 +35,7 @@ public class RegistryReportsRegistrationStatus extends Event {
         return marshalledBytes;
     }
     
-    public RegistryReportsRegistrationStatus(int nodeId, String informationString) {
+    public RegistryReportsRegistrationStatus(byte nodeId, String informationString) {
         this.nodeId = nodeId;
         this.informationString = informationString;
     }
@@ -43,7 +43,7 @@ public class RegistryReportsRegistrationStatus extends Event {
     public RegistryReportsRegistrationStatus(ByteArrayInputStream baInputStream, DataInputStream din)
             throws IOException {
         
-        nodeId = din.readInt();
+        nodeId = din.readByte();
         
         byte len = din.readByte();
         byte[] informationStringBytes = new byte[len];

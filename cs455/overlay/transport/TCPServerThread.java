@@ -41,8 +41,7 @@ public class TCPServerThread implements Runnable {
                 node.onConnection(con);
             
             } catch (IOException ioe) {
-                System.out.println("TCPServerThread serverSocket closed.");
-                System.out.println(ioe.getMessage());
+                // Do nothing
             }
         }
         

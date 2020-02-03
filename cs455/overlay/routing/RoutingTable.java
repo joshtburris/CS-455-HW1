@@ -7,15 +7,15 @@ public class RoutingTable {
     private byte[] ipAddress;
     public byte[] getIpAddress() { return ipAddress; }
     
-    private int portNum;
-    public int getPortNum() { return portNum; }
+    private int portnum;
+    public int getPortnum() { return portnum; }
     
     private byte nodeId;
     public byte getNodeId() { return nodeId; }
     
-    public RoutingTable(byte[] ipAddress, int portNum, byte nodeId) {
+    public RoutingTable(byte[] ipAddress, int portnum, byte nodeId) {
         this.ipAddress = ipAddress;
-        this.portNum = portNum;
+        this.portnum = portnum;
         this.nodeId = nodeId;
     }
     

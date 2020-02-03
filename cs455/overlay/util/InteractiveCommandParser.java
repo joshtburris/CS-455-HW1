@@ -11,7 +11,7 @@ public class InteractiveCommandParser {
         in = new Scanner(System.in);
     }
     
-    // Return of an empty string is an indicator to stop accepting new console commands.
+    // Returns "exit" string as an indicator to stop accepting new console commands.
     public String getConsoleCommand() {
         
         // Read in a console commands
@@ -21,7 +21,7 @@ public class InteractiveCommandParser {
         // Check if an exit command was given, and return empty if it was
         switch (line) {
             case "exit": case "quit": case "stop":
-                return "";
+                return "exit";
             default:
                 return line;
         }

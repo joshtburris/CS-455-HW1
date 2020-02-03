@@ -6,16 +6,14 @@ public class OverlayNodeSendsDeregistration extends Event {
     
     private byte[] ipAddress;
     private int portnum;
-    private int nodeId;
+    private byte nodeId;
     
     public byte getType() { return Protocol.OVERLAY_NODE_SENDS_DEREGISTRATION; }
     public byte[] getIpAddress() { return ipAddress; }
     public int getPortnum() { return portnum; }
-    public int getNodeId() { return nodeId; }
+    public byte getNodeId() { return nodeId; }
     
     public byte[] getBytes() throws IOException {
-        
-        byte[] marshalledBytes = null;
         
         ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
@@ -26,10 +24,10 @@ public class OverlayNodeSendsDeregistration extends Event {
         dout.write(ipAddress);
         
         dout.writeInt(portnum);
-        dout.writeInt(nodeId);
+        dout.writeByte(nodeId);
         
         dout.flush();
-        marshalledBytes = baOutputStream.toByteArray();
+        byte[] marshalledBytes = baOutputStream.toByteArray();
         
         baOutputStream.close();
         dout.close();
@@ -37,7 +35,7 @@ public class OverlayNodeSendsDeregistration extends Event {
         return marshalledBytes;
     }
     
-    public OverlayNodeSendsDeregistration(byte[] ipAddress, int portnum, int nodeId) {
+    public OverlayNodeSendsDeregistration(byte[] ipAddress, int portnum, byte nodeId) {
         this.ipAddress = ipAddress;
         this.portnum = portnum;
         this.nodeId = nodeId;
@@ -50,7 +48,7 @@ public class OverlayNodeSendsDeregistration extends Event {
         din.readFully(ipAddress);
     
         portnum = din.readInt();
-        nodeId = din.readInt();
+        nodeId = din.readByte();
         
         baInputStream.close();
         din.close();

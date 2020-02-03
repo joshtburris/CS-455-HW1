@@ -1,9 +1,8 @@
 package cs455.overlay.node;
 
-import cs455.overlay.routing.RoutingTable;
-import cs455.overlay.transport.TCPConnection;
-import cs455.overlay.transport.TCPConnectionsCache;
-import cs455.overlay.transport.TCPServerThread;
+import cs455.overlay.routing.*;
+import cs455.overlay.transport.*;
+import cs455.overlay.util.InteractiveCommandParser;
 import cs455.overlay.wireformats.*;
 
 import java.io.IOException;
@@ -12,73 +11,98 @@ import java.util.*;
 
 public class MessagingNode implements Node {
     
-    private TCPConnection registry;
+    private TCPConnection registryConnection;
     private TCPServerThread serverThread;
     private RoutingTable routingTable;
     private TCPConnectionsCache connectionsCache;
     
     public MessagingNode(String hostname, int portnum) {
+        connectionsCache = new TCPConnectionsCache();
         
-        // Register this node with the registry
         try {
-        
-            Socket socket = new Socket(hostname, portnum);
-            registry = new TCPConnection(this, socket);
-        
-            OverlayNodeSendsRegistration reg = new OverlayNodeSendsRegistration(
-                    registry.getLocalIpAddress(), registry.getLocalPortnum());
+            // Initialize the serverSocket to any open port
+            ServerSocket serverSocket = new ServerSocket(0, 100);
     
-            registry.sendData(reg.getBytes());
-        
+            // Start the server thread to accept new connections
+            serverThread = new TCPServerThread(this, serverSocket);
+            Thread thread = new Thread(serverThread);
+            thread.start();
+    
+            // Register this node with the registry
+            Socket socket = new Socket(hostname, portnum);
+            registryConnection = new TCPConnection(this, socket);
+    
+            OverlayNodeSendsRegistration reg = new OverlayNodeSendsRegistration(
+                    registryConnection.getLocalIpAddress(), registryConnection.getLocalPortnum());
+    
+            registryConnection.sendData(reg.getBytes());
+            
         } catch (UnknownHostException uhe) {
             System.out.println(uhe.getMessage());
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
-    }
-    
-    public void start() {
-        // Create a server
-        // Start a thread that accepts new messaging nodes into the serverSocket and adds them to the list of
-        // messaging node connections, as well as the list of table entries to keep their information.
-        threadExit = false;
-        Thread thread = new Thread(() ->  {
-            while (!threadExit) {
-                try {
-                
-                    // Accept a new connection to the server and create a socket
-                    Socket socket = serverSocket.accept();
-                
-                    TCPConnection con = new TCPConnection(this, socket);
-                    messagingNodeConnections.put(con.getRemoteSocketAddress(), con);
-                
-                } catch (IOException ioe) {
-                    System.out.println(ioe.getMessage());
-                }
-            }
-        });
-        thread.start();
         
     }
     
     public void onEvent(Event event) {
         switch (event.getType()) {
             case Protocol.REGISTRY_REPORTS_REGISTRATION_STATUS:
-                printRegistrationStatus((RegistryReportsRegistrationStatus)event);
+                onRegistrationStatus((RegistryReportsRegistrationStatus)event);
                 break;
             case Protocol.REGISTRY_REPORTS_DEREGISTRATION_STATUS:
-                printDeregistrationStatus((RegistryReportsDeregistrationStatus)event);
+                onDeregistrationStatus((RegistryReportsDeregistrationStatus)event);
                 break;
         }
     }
     
-    private void printRegistrationStatus(RegistryReportsRegistrationStatus status) {
+    public void onConnection(TCPConnection con) {
+        connectionsCache.add(con.getRemoteSocketAddress(), con);
+    }
+    
+    private void onRegistrationStatus(RegistryReportsRegistrationStatus status) {
+        
+        if (status.getNodeId() != -1) {
+            routingTable = new RoutingTable(registryConnection.getLocalIpAddress(),
+                    registryConnection.getLocalPortnum(), status.getNodeId());
+        }
+        
         System.out.println(status.getInformationString());
     }
     
-    private void printDeregistrationStatus(RegistryReportsDeregistrationStatus status) {
-        threadExit = true;
+    private void onDeregistrationStatus(RegistryReportsDeregistrationStatus status) {
+        
         System.out.println(status.getInformationString());
+    }
+    
+    public void start() {
+        // Process console command and break when an exit status, AKA "exit", is returned
+        InteractiveCommandParser parser = new InteractiveCommandParser();
+        String command;
+        while ((command = parser.getConsoleCommand()).compareTo("exit") != 0) {
+            processConsoleCommand(command);
+        }
+    
+        serverThread.exitThread();
+    }
+    
+    private void processConsoleCommand(String command) {
+        switch (command) {
+            case "print-counters-and-diagnostics":
+                printCountersDiagnostics();
+                break;
+            case "exit-overlay":
+                exitOverlay();
+                break;
+        }
+    }
+    
+    private void printCountersDiagnostics() {
+    
+    }
+    
+    private void exitOverlay() {
+    
     }
     
     public static void main(String[] args) {
@@ -87,25 +111,10 @@ public class MessagingNode implements Node {
         String hostname = args[0];
         int portnum = Integer.parseInt(args[1]);
         
+        // Initiate the MessagingNode and call start().
         MessagingNode messagingNode = new MessagingNode(hostname, portnum);
         messagingNode.start();
-    
-        // Continuously check for console commands until none is given
-        Scanner in = new Scanner(System.in);
-        String line;
-        System.out.print(">>> ");
-        while (!(line = in.nextLine().trim()).isEmpty()) {
-            // Process console command and break when an exit status is returned
-            if (!processConsoleCommand(messagingNode, line))
-                break;
-            System.out.print(">>> ");
-        }
-    
-        messagingNode.threadExit = true;
-    }
-    
-    private static boolean processConsoleCommand(MessagingNode messagingNode, String line) {
-        return false;
+
     }
     
 }

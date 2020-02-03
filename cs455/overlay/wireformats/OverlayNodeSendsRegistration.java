@@ -13,8 +13,6 @@ public class OverlayNodeSendsRegistration extends Event {
     
     public byte[] getBytes() throws IOException {
         
-        byte[] marshalledBytes = null;
-        
         ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
         
@@ -26,7 +24,7 @@ public class OverlayNodeSendsRegistration extends Event {
         dout.writeInt(portnum);
         
         dout.flush();
-        marshalledBytes = baOutputStream.toByteArray();
+        byte[] marshalledBytes = baOutputStream.toByteArray();
         
         baOutputStream.close();
         dout.close();
@@ -40,11 +38,6 @@ public class OverlayNodeSendsRegistration extends Event {
     }
     
     public OverlayNodeSendsRegistration(ByteArrayInputStream baInputStream, DataInputStream din) throws IOException {
-        
-        /*ByteArrayInputStream baInputStream = new ByteArrayInputStream(marshalledBytes);
-        DataInputStream din = new DataInputStream(new BufferedInputStream(baInputStream));
-        
-        type = din.readByte();*/
         
         byte len = din.readByte();
         ipAddress = new byte[len];

@@ -31,7 +31,7 @@ public class Registry implements Node {
         routingTables = new TreeMap<>();
         connectionsCache = new TCPConnectionsCache();
     
-        // Initialize the serverSocket starting with port portNum, increasing the portNum until one doesn't give an
+        // Initialize the serverSocket starting with port portnum, increasing the portnum until one doesn't give an
         // exception.
         ServerSocket serverSocket = null;
         while (serverSocket == null) {
@@ -63,12 +63,118 @@ public class Registry implements Node {
         connectionsCache.add(con.getRemoteSocketAddress(), con);
     }
     
-    public void start() {
+    private void registerMessagingNode(OverlayNodeSendsRegistration reg) {
+        
+        String nodeKey = IpAddressParser.parseByteArray(reg.getIpAddress()) +":"+ reg.getPortnum();
+        TCPConnection messagingNode = connectionsCache.get(nodeKey);
+        
+        // Ensure the IP Address matches the address where the request originated.
+        if (!Arrays.equals(reg.getIpAddress(), messagingNode.getRemoteIpAddress())) {
+            
+            Event report = new RegistryReportsRegistrationStatus((byte)-1,
+                    "Registration request unsuccessful. Sender's IP address did not match what was given.");
+            
+            try {
+                messagingNode.sendData(report.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+            return;
+        }
+        
+        // Check if node has been previously registered
+        for (RoutingTable entry : routingTables.values()) {
+            if (Arrays.equals(entry.getIpAddress(), reg.getIpAddress())
+                    && entry.getPortnum() == reg.getPortnum()) {
+                
+                Event report = new RegistryReportsRegistrationStatus((byte)-1,
+                        "Registration request unsuccessful. You have already registered with the registry.");
+                
+                try {
+                    messagingNode.sendData(report.getBytes());
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
+                return;
+            }
+        }
+        
+        // Register a new messaging node
+        byte nodeId = getUniqueID();
+        
+        // Add a new entry to the list of routing tables
+        RoutingTable newEntry = new RoutingTable(reg.getIpAddress(), reg.getPortnum(), nodeId);
+        routingTables.put(nodeId, newEntry);
+        
+        // Send the successful registration status to the messaging node
+        RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(nodeId, "Registration " +
+                "request successful. The number of messaging nodes currently constituting the overlay is ("+
+                routingTables.size() +")");
+        
+        try {
+            messagingNode.sendData(report.getBytes());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        
+    }
     
-        // Process console command and break when an exit status (empty string) is returned
+    private void deregisterMessagingNode(OverlayNodeSendsDeregistration dereg) {
+        
+        String nodeKey = IpAddressParser.parseByteArray(dereg.getIpAddress()) +":"+ dereg.getPortnum();
+        TCPConnection messagingNode = connectionsCache.get(nodeKey);
+        
+        // Ensure the IP Address matches the address where the request originated.
+        if (!Arrays.equals(dereg.getIpAddress(), messagingNode.getRemoteIpAddress())) {
+            
+            Event report = new RegistryReportsDeregistrationStatus(-1,
+                    "Deregistration request unsuccessful. Sender's IP address did not match what was given.");
+            
+            try {
+                messagingNode.sendData(report.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+            return;
+        }
+        
+        // Check if node has been registered, if so then deregister
+        // Send error if node isn't currently registered
+        if (!routingTables.containsKey(dereg.getNodeId())) {
+            
+            Event report = new RegistryReportsRegistrationStatus((byte)-1, "Deregistration request unsuccessful. " +
+                    "You were not registered with the registry.");
+            
+            try {
+                messagingNode.sendData(report.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+            return;
+            
+        } else {
+            
+            // Deregister messaging node
+            routingTables.remove(dereg.getNodeId());
+            
+            // Send the successful deregistration status to the messaging node
+            Event report = new RegistryReportsDeregistrationStatus(dereg.getNodeId(), "Deregistration " +
+                    "request successful. You are no longer in the overlay.");
+            
+            try {
+                messagingNode.sendData(report.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+        }
+        
+    }
+    
+    public void start() {
+        // Process console command and break when an exit status, AKA "exit", is returned
         InteractiveCommandParser parser = new InteractiveCommandParser();
         String command;
-        while (!(command = parser.getConsoleCommand()).isEmpty()) {
+        while ((command = parser.getConsoleCommand()).compareTo("exit") != 0) {
             processConsoleCommand(command);
         }
         
@@ -114,119 +220,12 @@ public class Registry implements Node {
         }
     }
     
-    private void registerMessagingNode(OverlayNodeSendsRegistration reg) {
-    
-        String nodeKey = IpAddressParser.parseByteArray(reg.getIpAddress()) +":"+ reg.getPortnum();
-        TCPConnection messagingNode = connectionsCache.get(nodeKey);
-    
-        // Ensure the IP Address matches the address where the request originated.
-        if (!Arrays.equals(reg.getIpAddress(), messagingNode.getRemoteIpAddress())) {
-    
-            Event report = new RegistryReportsRegistrationStatus(-1,
-                    "Registration request unsuccessful. Sender's IP address did not match what was given.");
-        
-            try {
-                messagingNode.sendData(report.getBytes());
-            } catch (IOException ioe) {
-                System.out.println(ioe.getMessage());
-            }
-            return;
-        }
-        
-        // Check if node has been previously registered
-        for (RoutingTable entry : routingTables.values()) {
-            if (Arrays.equals(entry.getIpAddress(), reg.getIpAddress())
-                    && entry.getPortNum() == reg.getPortnum()) {
-    
-                Event report = new RegistryReportsRegistrationStatus(-1,
-                        "Registration request unsuccessful. You have already registered with the registry.");
-    
-                try {
-                    messagingNode.sendData(report.getBytes());
-                } catch (IOException ioe) {
-                    System.out.println(ioe.getMessage());
-                }
-                return;
-            }
-        }
-        
-        // Register a new messaging node
-        byte nodeId = getUniqueID();
-    
-        // Add a new entry to the list of routing tables
-        RoutingTable newEntry = new RoutingTable(reg.getIpAddress(), reg.getPortnum(), nodeId);
-        routingTables.put(nodeId, newEntry);
-        
-        // Send the successful registration status to the messaging node
-        RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(nodeId, "Registration " +
-                "request successful. The number of messaging nodes currently constituting the overlay is ("+
-                routingTables.size() +")");
-    
-        try {
-            messagingNode.sendData(report.getBytes());
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
-        
-    }
-    
-    private void deregisterMessagingNode(OverlayNodeSendsDeregistration dereg) {
-        
-        String nodeKey = IpAddressParser.parseByteArray(dereg.getIpAddress()) +":"+ dereg.getPortnum();
-        TCPConnection messagingNode = connectionsCache.get(nodeKey);
-    
-        // Ensure the IP Address matches the address where the request originated.
-        if (!Arrays.equals(dereg.getIpAddress(), messagingNode.getRemoteIpAddress())) {
-        
-            Event report = new RegistryReportsDeregistrationStatus(-1,
-                    "Deregistration request unsuccessful. Sender's IP address did not match what was given.");
-        
-            try {
-                messagingNode.sendData(report.getBytes());
-            } catch (IOException ioe) {
-                System.out.println(ioe.getMessage());
-            }
-            return;
-        }
-        
-        // Check if node has been registered, if so then deregister
-        // Send error if node isn't currently registered
-        if (!routingTables.containsKey(dereg.getNodeId())) {
-    
-            Event report = new RegistryReportsRegistrationStatus(-1, "Deregistration request unsuccessful. " +
-                    "You were not registered with the registry.");
-    
-            try {
-                messagingNode.sendData(report.getBytes());
-            } catch (IOException ioe) {
-                System.out.println(ioe.getMessage());
-            }
-            return;
-        
-        } else {
-            
-            // Deregister messaging node
-            routingTables.remove(dereg.getNodeId());
-    
-            // Send the successful deregistration status to the messaging node
-            Event report = new RegistryReportsDeregistrationStatus(dereg.getNodeId(), "Deregistration " +
-                    "request successful. You are no longer in the overlay.");
-    
-            try {
-                messagingNode.sendData(report.getBytes());
-            } catch (IOException ioe) {
-                System.out.println(ioe.getMessage());
-            }
-        }
-        
-    }
-    
     public static void main(String[] args) {
         
         // Take in the port number from the command line
         int portnum = Integer.parseInt(args[0]);
         
-        // Create a registry
+        // Initiate the Registry and call start().
         Registry registry = new Registry(portnum);
         registry.start();
         
