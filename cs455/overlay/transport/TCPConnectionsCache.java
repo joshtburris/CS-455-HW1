@@ -13,19 +13,31 @@ public class TCPConnectionsCache {
     }
     
     public void add(String socketAddress, TCPConnection con) {
-        map.put(socketAddress, con);
+        synchronized (map) {
+            map.put(socketAddress, con);
+        }
     }
     
     public void add(byte[] ipAddress, int portnum, TCPConnection con) {
-        map.put(IpAddressParser.parseByteArray(ipAddress) +":"+ portnum, con);
+        synchronized (map) {
+            map.put(IpAddressParser.parseByteArray(ipAddress) + ":" + portnum, con);
+        }
     }
     
     public TCPConnection get(String socketAddress) {
-        return map.get(socketAddress);
+        TCPConnection con;
+        synchronized (map) {
+            con = map.get(socketAddress);
+        }
+        return con;
     }
     
     public TCPConnection get(byte[] ipAddress, int portnum) {
-        return map.get(IpAddressParser.parseByteArray(ipAddress) +":"+ portnum);
+        TCPConnection con;
+        synchronized (map) {
+            con = map.get(IpAddressParser.parseByteArray(ipAddress) +":"+ portnum);
+        }
+        return con;
     }
     
 }

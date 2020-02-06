@@ -12,18 +12,18 @@ import java.net.*;
 public class Registry implements Node {
     
     private TCPServerThread serverThread;
-    private TreeMap<Byte, RoutingTable> routingTables;
+    private TreeMap<Integer, RoutingTable> routingTables;
     private TCPConnectionsCache connectionsCache;
     
-    private byte uniqueID = 0;
-    private synchronized byte getUniqueID() {
-        byte tmp = uniqueID;
+    private int uniqueID = 0;
+    private synchronized int getUniqueID() {
+        int tmp = uniqueID;
         while (routingTables.containsKey(tmp)) {
             ++tmp;
-            if (tmp < 0) tmp = 0;
+            if (tmp < 0 || tmp > 127) tmp = 0;
         }
-        uniqueID = (byte)(tmp + 1);
-        if (uniqueID < 0) uniqueID = 0;
+        uniqueID = tmp + 1;
+        if (uniqueID < 0 || uniqueID > 127) uniqueID = 0;
         return tmp;
     }
     
@@ -71,7 +71,7 @@ public class Registry implements Node {
         // Ensure the IP Address matches the address where the request originated.
         if (!Arrays.equals(reg.getIpAddress(), messagingNode.getRemoteIpAddress())) {
             
-            Event report = new RegistryReportsRegistrationStatus((byte)-1,
+            Event report = new RegistryReportsRegistrationStatus(-1,
                     "Registration request unsuccessful. Sender's IP address did not match what was given.");
             
             try {
@@ -87,7 +87,7 @@ public class Registry implements Node {
             if (Arrays.equals(entry.getIpAddress(), reg.getIpAddress())
                     && entry.getPortnum() == reg.getPortnum()) {
                 
-                Event report = new RegistryReportsRegistrationStatus((byte)-1,
+                Event report = new RegistryReportsRegistrationStatus(-1,
                         "Registration request unsuccessful. You have already registered with the registry.");
                 
                 try {
@@ -100,7 +100,7 @@ public class Registry implements Node {
         }
         
         // Register a new messaging node
-        byte nodeId = getUniqueID();
+        int nodeId = getUniqueID();
         
         // Add a new entry to the list of routing tables
         RoutingTable newEntry = new RoutingTable(reg.getIpAddress(), reg.getPortnum(), nodeId);
@@ -142,7 +142,7 @@ public class Registry implements Node {
         // Send error if node isn't currently registered
         if (!routingTables.containsKey(dereg.getNodeId())) {
             
-            Event report = new RegistryReportsRegistrationStatus((byte)-1, "Deregistration request unsuccessful. " +
+            Event report = new RegistryReportsRegistrationStatus(-1, "Deregistration request unsuccessful. " +
                     "You were not registered with the registry.");
             
             try {
