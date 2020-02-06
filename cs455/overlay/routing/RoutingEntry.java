@@ -12,8 +12,8 @@ public class RoutingEntry {
     private byte[] ipAddress;
     public byte[] getIpAddress() { return ipAddress; }
     
-    private byte portNum;
-    public byte getPortNum() { return portNum; }
+    private byte portnum;
+    public byte getPortnum() { return portnum; }
     
     private byte distance;
     public byte getDistance() { return distance; }
@@ -25,9 +25,14 @@ public class RoutingEntry {
     public boolean isRegistered() { return registered; }
     public void deregister() { registered = false; }
     
-    public RoutingEntry(String hostname, byte[] ipAddress, byte portNum, byte distance, byte nodeId) {
+    public RoutingEntry(String hostname, byte[] ipAddress, byte portnum, byte distance, byte nodeId) {
         //TODO: Routing table is all wrong.
         registered = true;
+        
+        
+        this.ipAddress = ipAddress;
+        this.portnum = portnum;
+        this.nodeId = nodeId;
     }
 
 }

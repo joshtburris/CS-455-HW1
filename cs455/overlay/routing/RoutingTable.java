@@ -1,6 +1,6 @@
 package cs455.overlay.routing;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class RoutingTable {
     
@@ -10,43 +10,38 @@ public class RoutingTable {
     private int portnum;
     public int getPortnum() { return portnum; }
     
-    private byte nodeId;
-    public byte getNodeId() { return nodeId; }
+    private int nodeId;
+    public int getNodeId() { return nodeId; }
     
-    public RoutingTable(byte[] ipAddress, int portnum, byte nodeId) {
+    private ArrayList<RoutingEntry> entries;
+    public ArrayList<RoutingEntry> getEntries() {
+        return entries;
+    }
+    
+    public void addEntry(RoutingEntry entry) {
+        synchronized (entries) {
+            entries.add(entry);
+        }
+    }
+    
+    public RoutingTable(byte[] ipAddress, int portnum, int nodeId) {
         this.ipAddress = ipAddress;
         this.portnum = portnum;
         this.nodeId = nodeId;
+    
+        entries = new ArrayList<>();
     }
     
     
-    
-    
-    
-    /*
-    private Object lock;
-    private TreeMap<Integer, RoutingEntry> entries;
-    
-    
-    public RoutingTable() {
-        lock = new Object();
-        entries = new TreeMap<>();
-    }
-    
-    public void addEntry(RoutingEntry entry, int id) {
-        synchronized (lock) {
-            entries.put(id, entry);
-        }
-    }
     
     public void listMessagingNodes() {
-        synchronized (lock) {
+        synchronized (entries) {
         
-            for (RoutingEntry entry : entries.values()) {
-                System.out.println(entry.getHostname() +"\t"+ entry.getPortNum() +"\t"+ entry.getNodeId());
+            for (RoutingEntry entry : entries) {
+                System.out.println(entry.getHostname() +"\t"+ entry.getPortnum() +"\t"+ entry.getNodeId());
             }
         
         }
-    }*/
+    }
 
 }
