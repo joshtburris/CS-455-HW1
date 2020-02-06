@@ -1,35 +1,17 @@
 package cs455.overlay.routing;
 
-import cs455.overlay.transport.TCPConnection;
-
-import java.net.*;
-
 public class RoutingEntry {
-    
-    private String hostname;
-    public String getHostname() { return hostname; }
     
     private byte[] ipAddress;
     public byte[] getIpAddress() { return ipAddress; }
     
-    private byte portnum;
-    public byte getPortnum() { return portnum; }
+    private int portnum;
+    public int getPortnum() { return portnum; }
     
-    private byte distance;
-    public byte getDistance() { return distance; }
+    private int nodeId;
+    public int getNodeId() { return nodeId; }
     
-    private byte nodeId;
-    public byte getNodeId() { return nodeId; }
-    
-    private boolean registered;
-    public boolean isRegistered() { return registered; }
-    public void deregister() { registered = false; }
-    
-    public RoutingEntry(String hostname, byte[] ipAddress, byte portnum, byte distance, byte nodeId) {
-        //TODO: Routing table is all wrong.
-        registered = true;
-        
-        
+    public RoutingEntry(byte[] ipAddress, int portnum, int nodeId) {
         this.ipAddress = ipAddress;
         this.portnum = portnum;
         this.nodeId = nodeId;
