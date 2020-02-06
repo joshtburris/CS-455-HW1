@@ -102,6 +102,10 @@ public class Registry implements Node {
         // Register a new messaging node
         int nodeId = getUniqueID();
         
+        Integer[] f = new Integer[routingTables.keySet().size()];
+        routingTables.keySet().toArray(f);
+        Integer[] g = (Integer[])routingTables.keySet().toArray();
+        
         // Add a new entry to the list of routing tables
         RoutingTable newEntry = new RoutingTable(reg.getIpAddress(), reg.getPortnum(), nodeId);
         routingTables.put(nodeId, newEntry);

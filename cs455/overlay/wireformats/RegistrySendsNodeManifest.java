@@ -6,11 +6,12 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class RegistrySendsNodeManifest {
-
-    private RoutingTable routingTable;
-    public RoutingTable getRoutingTable() {
-        return routingTable;
-    }
+    
+    private ArrayList<RoutingEntry> entries;
+    public ArrayList<RoutingEntry> getEntries() { return entries; }
+    
+    private int[] allNodeIds;
+    public int[] getAllNodeIds() { return allNodeIds; }
     
     public byte getType() { return Protocol.REGISTRY_SENDS_NODE_MANIFEST; }
     
@@ -21,7 +22,6 @@ public class RegistrySendsNodeManifest {
     
         dout.writeByte(getType());
     
-        ArrayList<RoutingEntry> entries = routingTable.getRoutingEntries();
         dout.writeByte(entries.size());
         
         for (RoutingEntry entry : entries) {
@@ -33,6 +33,10 @@ public class RegistrySendsNodeManifest {
             
             dout.writeInt(entry.getPortnum());
         }
+        
+        dout.writeByte(allNodeIds.length);
+        for (int i : allNodeIds)
+            dout.writeInt(i);
     
         dout.flush();
         byte[] marshalledBytes = baOutputStream.toByteArray();
@@ -43,8 +47,35 @@ public class RegistrySendsNodeManifest {
         return marshalledBytes;
     }
     
-    public RegistrySendsNodeManifest(RoutingTable routingTable) {
-        this.routingTable = routingTable;
+    public RegistrySendsNodeManifest(ArrayList<RoutingEntry> entries, int[] allNodeIds) {
+        this.entries = entries;
+        this.allNodeIds = allNodeIds;
     }
-
+    
+    public RegistrySendsNodeManifest(ByteArrayInputStream baInputStream, DataInputStream din) throws IOException {
+        
+        byte len = din.readByte();
+        
+        entries = new ArrayList<>(len);
+        for (int i = 0; i < len; ++i) {
+            int nodeId = din.readInt();
+            
+            byte[] ip = new byte[din.readByte()];
+            din.readFully(ip);
+            
+            int portnum = din.readInt();
+            
+            RoutingEntry e = new RoutingEntry(ip, portnum, nodeId);
+            entries.add(e);
+        }
+        
+        len = din.readByte();
+        allNodeIds = new int[len];
+        for (int i = 0; i < len; ++i)
+            allNodeIds[i] = din.readInt();
+        
+        baInputStream.close();
+        din.close();
+    }
+    
 }
