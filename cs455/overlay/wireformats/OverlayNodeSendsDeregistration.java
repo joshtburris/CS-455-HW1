@@ -5,13 +5,15 @@ import java.io.*;
 public class OverlayNodeSendsDeregistration extends Event {
     
     private byte[] ipAddress;
+    public byte[] getIpAddress() { return ipAddress; }
+    
     private int portnum;
+    public int getPortnum() { return portnum; }
+    
     private int nodeId;
+    public int getNodeId() { return nodeId; }
     
     public byte getType() { return Protocol.OVERLAY_NODE_SENDS_DEREGISTRATION; }
-    public byte[] getIpAddress() { return ipAddress; }
-    public int getPortnum() { return portnum; }
-    public int getNodeId() { return nodeId; }
     
     public byte[] getBytes() throws IOException {
         

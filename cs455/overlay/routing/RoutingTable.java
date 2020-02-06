@@ -34,7 +34,7 @@ public class RoutingTable {
     
     
     
-    public void listMessagingNodes() {
+    /*public void listMessagingNodes() {
         synchronized (entries) {
         
             for (RoutingEntry entry : entries) {
@@ -42,6 +42,6 @@ public class RoutingTable {
             }
         
         }
-    }
+    }*/
 
 }

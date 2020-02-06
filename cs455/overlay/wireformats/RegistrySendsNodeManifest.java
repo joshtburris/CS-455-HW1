@@ -5,7 +5,7 @@ import cs455.overlay.routing.*;
 import java.io.*;
 import java.util.ArrayList;
 
-public class RegistrySendsNodeManifest {
+public class RegistrySendsNodeManifest extends Event {
     
     private ArrayList<RoutingEntry> entries;
     public ArrayList<RoutingEntry> getEntries() { return entries; }
