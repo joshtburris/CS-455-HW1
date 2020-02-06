@@ -5,15 +5,14 @@ import java.io.*;
 public class RegistryReportsDeregistrationStatus extends Event {
     
     private int nodeId;
-    private String informationString;
+    public int getNodeId() { return nodeId; }
+    
+    private String infoString;
+    public String getInfoString() { return infoString; }
     
     public byte getType() { return Protocol.REGISTRY_REPORTS_DEREGISTRATION_STATUS; }
-    public int getNodeId() { return nodeId; }
-    public String getInformationString() { return informationString; }
     
     public byte[] getBytes() throws IOException {
-        
-        byte[] marshalledBytes = null;
         
         ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
         DataOutputStream dout = new DataOutputStream(new BufferedOutputStream(baOutputStream));
@@ -22,12 +21,12 @@ public class RegistryReportsDeregistrationStatus extends Event {
         
         dout.writeInt(nodeId);
         
-        byte[] informationStringBytes = informationString.getBytes();
-        dout.writeByte(informationStringBytes.length);
-        dout.write(informationStringBytes);
+        byte[] infoStringBytes = infoString.getBytes();
+        dout.writeByte(infoStringBytes.length);
+        dout.write(infoStringBytes);
         
         dout.flush();
-        marshalledBytes = baOutputStream.toByteArray();
+        byte[] marshalledBytes = baOutputStream.toByteArray();
         
         baOutputStream.close();
         dout.close();
@@ -35,9 +34,9 @@ public class RegistryReportsDeregistrationStatus extends Event {
         return marshalledBytes;
     }
     
-    public RegistryReportsDeregistrationStatus(int nodeId, String informationString) {
+    public RegistryReportsDeregistrationStatus(int nodeId, String infoString) {
         this.nodeId = nodeId;
-        this.informationString = informationString;
+        this.infoString = infoString;
     }
     
     public RegistryReportsDeregistrationStatus(ByteArrayInputStream baInputStream, DataInputStream din)
@@ -46,9 +45,9 @@ public class RegistryReportsDeregistrationStatus extends Event {
         nodeId = din.readInt();
         
         byte len = din.readByte();
-        byte[] informationStringBytes = new byte[len];
-        din.readFully(informationStringBytes);
-        informationString = new String(informationStringBytes);
+        byte[] infoStringBytes = new byte[len];
+        din.readFully(infoStringBytes);
+        infoString = new String(infoStringBytes);
         
         baInputStream.close();
         din.close();
