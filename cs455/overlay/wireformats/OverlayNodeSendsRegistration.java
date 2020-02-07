@@ -5,11 +5,12 @@ import java.io.*;
 public class OverlayNodeSendsRegistration extends Event {
     
     private byte[] ipAddress;
+    public byte[] getIpAddress() { return ipAddress; }
+    
     private int portnum;
+    public int getPortnum() { return portnum; }
     
     public byte getType() { return Protocol.OVERLAY_NODE_SENDS_REGISTRATION; }
-    public byte[] getIpAddress() { return ipAddress; }
-    public int getPortnum() { return portnum; }
     
     public byte[] getBytes() throws IOException {
         

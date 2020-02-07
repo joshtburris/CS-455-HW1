@@ -16,15 +16,7 @@ public class InteractiveCommandParser {
         
         // Read in a console commands
         System.out.print(">>> ");
-        line = in.nextLine().trim().toLowerCase();
-        
-        // Check if an exit command was given, and return empty if it was
-        switch (line) {
-            case "exit": case "quit": case "stop":
-                return "exit";
-            default:
-                return line;
-        }
+        return in.nextLine().trim().toLowerCase();
     }
 
 }

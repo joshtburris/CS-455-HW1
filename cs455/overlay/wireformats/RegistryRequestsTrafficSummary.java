@@ -23,4 +23,13 @@ public class RegistryRequestsTrafficSummary extends Event {
     
         return marshalledBytes;
     }
+    
+    public RegistryRequestsTrafficSummary() { }
+    
+    public RegistryRequestsTrafficSummary(ByteArrayInputStream baInputStream, DataInputStream din) throws IOException {
+        
+        baInputStream.close();
+        din.close();
+    }
+    
 }

@@ -1,8 +1,12 @@
 package cs455.overlay.routing;
 
+import java.net.*;
 import java.util.ArrayList;
 
 public class RoutingTable {
+    
+    private String hostName;
+    public String getHostName() { return hostName; }
     
     private byte[] ipAddress;
     public byte[] getIpAddress() { return ipAddress; }
@@ -30,18 +34,14 @@ public class RoutingTable {
         this.nodeId = nodeId;
     
         entries = new ArrayList<>();
-    }
     
-    
-    
-    /*public void listMessagingNodes() {
-        synchronized (entries) {
-        
-            for (RoutingEntry entry : entries) {
-                System.out.println(entry.getHostname() +"\t"+ entry.getPortnum() +"\t"+ entry.getNodeId());
-            }
-        
+        String hostName = "UNKNOWN HOST";
+        try {
+            hostName = Inet4Address.getByAddress(ipAddress).getHostName().split("\\.")[0];
+        } catch (UnknownHostException uhe) {
+            System.out.println(uhe.getMessage());
         }
-    }*/
+        this.hostName = hostName;
+    }
 
 }

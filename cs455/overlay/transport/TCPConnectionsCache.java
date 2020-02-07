@@ -2,42 +2,51 @@ package cs455.overlay.transport;
 
 import cs455.overlay.util.IpAddressParser;
 
-import java.util.TreeMap;
+import java.io.IOException;
+import java.util.concurrent.*;
 
 public class TCPConnectionsCache {
     
-    private TreeMap<String, TCPConnection> map;
+    public ConcurrentHashMap<String, TCPConnection> map;
     
     public TCPConnectionsCache() {
-        map = new TreeMap<>();
+        map = new ConcurrentHashMap<>();
     }
     
     public void add(String socketAddress, TCPConnection con) {
-        synchronized (map) {
-            map.put(socketAddress, con);
-        }
+        map.put(socketAddress, con);
     }
     
     public void add(byte[] ipAddress, int portnum, TCPConnection con) {
-        synchronized (map) {
-            map.put(IpAddressParser.parseByteArray(ipAddress) + ":" + portnum, con);
-        }
+        map.put(IpAddressParser.parseByteArray(ipAddress) + ":" + portnum, con);
+    }
+    
+    public void remove(String socketAddress) {
+        map.remove(socketAddress);
+    }
+    
+    public void remove(byte[] ipAddress, int portnum) {
+        map.remove(IpAddressParser.parseByteArray(ipAddress) + ":" + portnum);
     }
     
     public TCPConnection get(String socketAddress) {
-        TCPConnection con;
-        synchronized (map) {
-            con = map.get(socketAddress);
-        }
-        return con;
+        return map.get(socketAddress);
     }
     
     public TCPConnection get(byte[] ipAddress, int portnum) {
-        TCPConnection con;
+        return map.get(IpAddressParser.parseByteArray(ipAddress) +":"+ portnum);
+    }
+    
+    public void closeAll() {
         synchronized (map) {
-            con = map.get(IpAddressParser.parseByteArray(ipAddress) +":"+ portnum);
+            for (TCPConnection con : map.values()) {
+                try {
+                    con.close();
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
+            }
         }
-        return con;
     }
     
 }
