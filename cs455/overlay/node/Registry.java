@@ -229,17 +229,23 @@ public class Registry implements Node {
                 listMessagingNodes();
                 return true;
             case "setup-overlay":
-                setupOverlay(Integer.parseInt(data[1]));
+                int numRoutingTableEntries = 3;
+                try {
+                    numRoutingTableEntries = Integer.parseInt(data[1]);
+                } catch (ArrayIndexOutOfBoundsException ibe) {
+                    System.out.println("The number of routing table entries was not specified. Defaulting to 3.");
+                }
+                setupOverlay(numRoutingTableEntries);
                 return true;
             case "list-routing-tables":
                 listRoutingTables();
                 return true;
             case "start":
-                int numMessages = 3;
+                int numMessages = 1;
                 try {
                     numMessages = Integer.parseInt(data[1]);
-                } catch (IndexOutOfBoundsException ibe) {
-                    // Do nothing
+                } catch (ArrayIndexOutOfBoundsException ibe) {
+                    System.out.println("The number of messages was not specified. Defaulting to 1.");
                 }
                 startOverlay(numMessages);
                 return true;
@@ -263,12 +269,38 @@ public class Registry implements Node {
         // This should result in the registry setting up the overlay. It does so by sending every messaging
         // node the REGISTRY_SENDS_NODE_MANIFEST message that contains information about the routing table
         // specific to that node and also information about other nodes in the system.
-        
-    
         // NOTE: You are not required to deal with the case where a messaging node is added or removed
         // after the overlay has been set up. You must however deal with the case where a messaging node
         // registers and deregisters from the registry before the overlay is set up.
         
+        Integer[] keys = new Integer[routingTables.size()];
+        RoutingTable[] values = new RoutingTable[routingTables.size()];
+        routingTables.values().toArray(values);
+        routingTables.keySet().toArray(keys);
+        
+        int tableIndex = 0;
+        for (RoutingTable table : routingTables.values()) {
+        
+            for (int dist = 1; dist < Math.pow(2, numRoutingTableEntries); dist*=2) {
+            
+                int i = tableIndex+dist;
+                if (i >= keys.length)
+                    i -= keys.length;
+                
+                if (i != tableIndex) {
+                    table.addEntry(new RoutingEntry(values[i].getIpAddress(), values[i].getPortnum(), keys[i]));
+                }
+            
+            }
+            
+            ++tableIndex;
+    
+            System.out.println("Host: "+ table.getHostName());
+            for (RoutingEntry entry : table.getEntries())
+                System.out.println(IpAddressParser.parseByteArray(entry.getIpAddress()) +"\t"+ entry.getPortnum() +
+                "\t"+ entry.getNodeId());
+            System.out.println();
+        }
         
     }
     
