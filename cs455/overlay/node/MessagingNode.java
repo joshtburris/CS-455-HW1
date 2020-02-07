@@ -66,12 +66,12 @@ public class MessagingNode implements Node {
                     registryConnection.getLocalPortnum(), status.getNodeId());
         }
         
-        System.out.println(status.getInformationString());
+        System.out.println(status.getInfoString());
     }
     
     private void onDeregistrationStatus(RegistryReportsDeregistrationStatus status) {
         
-        System.out.println(status.getInformationString());
+        System.out.println(status.getInfoString());
     }
     
     public void start() {

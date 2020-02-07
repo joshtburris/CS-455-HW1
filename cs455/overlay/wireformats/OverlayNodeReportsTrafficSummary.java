@@ -46,10 +46,11 @@ public class OverlayNodeReportsTrafficSummary extends Event {
         dout.writeByte(getType());
         
         dout.writeInt(nodeId);
-        
-        byte[] infoStringBytes = infoString.getBytes();
-        dout.writeByte(infoStringBytes.length);
-        dout.write(infoStringBytes);
+        dout.writeInt(totalPacketsSent);
+        dout.writeInt(totalPacketsRelayed);
+        dout.writeLong(sumDataSent);
+        dout.writeInt(totalPacketsReceived);
+        dout.writeLong(sumDataReceived);
         
         dout.flush();
         byte[] marshalledBytes = baOutputStream.toByteArray();
@@ -60,20 +61,25 @@ public class OverlayNodeReportsTrafficSummary extends Event {
         return marshalledBytes;
     }
     
-    public OverlayNodeReportsTrafficSummary(int nodeId, String infoString) {
+    public OverlayNodeReportsTrafficSummary(int nodeId, int totalPacketsSent, int totalPacketsRelayed, long sumDataSent,
+            int totalPacketsReceived, long sumDataReceived) {
         this.nodeId = nodeId;
-        this.infoString = infoString;
+        this.totalPacketsSent = totalPacketsSent;
+        this.totalPacketsRelayed = totalPacketsRelayed;
+        this.sumDataSent = sumDataSent;
+        this.totalPacketsReceived = totalPacketsReceived;
+        this.sumDataReceived = sumDataReceived;
     }
     
     public OverlayNodeReportsTrafficSummary(ByteArrayInputStream baInputStream, DataInputStream din)
             throws IOException {
         
         nodeId = din.readInt();
-        
-        byte len = din.readByte();
-        byte[] infoStringBytes = new byte[len];
-        din.readFully(infoStringBytes);
-        infoString = new String(infoStringBytes);
+        totalPacketsSent = din.readInt();
+        totalPacketsRelayed = din.readInt();
+        sumDataSent = din.readLong();
+        totalPacketsReceived = din.readInt();
+        sumDataReceived = din.readLong();
         
         baInputStream.close();
         din.close();
