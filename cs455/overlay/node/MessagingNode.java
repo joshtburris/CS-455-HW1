@@ -11,9 +11,12 @@ import java.net.*;
 public class MessagingNode implements Node {
     
     private TCPConnection registryConnection;
-    private TCPServerThread serverThread;
+    private TCPServerThread server;
+    private Thread serverThread;
     private RoutingTable routingTable;
     private TCPConnectionsCache connectionsCache;
+    private StatisticsCollectorAndDisplay stats;
+    private int nodeId;
     
     public MessagingNode(String hostname, int portnum) {
         connectionsCache = new TCPConnectionsCache();
@@ -23,9 +26,9 @@ public class MessagingNode implements Node {
             ServerSocket serverSocket = new ServerSocket(0, 100);
     
             // Start the server thread to accept new connections
-            serverThread = new TCPServerThread(this, serverSocket);
-            Thread thread = new Thread(serverThread);
-            thread.start();
+            server = new TCPServerThread(this, serverSocket);
+            serverThread = new Thread(server);
+            serverThread.start();
     
             // Register this node with the registry
             Socket socket = new Socket(hostname, portnum);
@@ -52,6 +55,15 @@ public class MessagingNode implements Node {
             case Protocol.REGISTRY_REPORTS_DEREGISTRATION_STATUS:
                 onDeregistrationStatus((RegistryReportsDeregistrationStatus)event);
                 break;
+            case Protocol.REGISTRY_SENDS_NODE_MANIFEST:
+                receiveNodeManifest((RegistrySendsNodeManifest)event);
+                break;
+            case Protocol.REGISTRY_REQUESTS_TASK_INITIATE:
+                onTaskInitiate((RegistryRequestsTaskInitiate)event);
+                break;
+            case Protocol.REGISTRY_REQUESTS_TRAFFIC_SUMMARY:
+                sendTrafficSummary();
+                break;
         }
     }
     
@@ -64,6 +76,8 @@ public class MessagingNode implements Node {
         if (status.getNodeId() != -1) {
             routingTable = new RoutingTable(registryConnection.getLocalIpAddress(),
                     registryConnection.getLocalPortnum(), status.getNodeId());
+            
+            nodeId = status.getNodeId();
         }
         
         System.out.println(status.getInfoString());
@@ -71,29 +85,55 @@ public class MessagingNode implements Node {
     
     private void onDeregistrationStatus(RegistryReportsDeregistrationStatus status) {
         
+        try {
+            registryConnection.close();
+            connectionsCache.closeAll();
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        
         System.out.println(status.getInfoString());
+    }
+    
+    private void receiveNodeManifest(RegistrySendsNodeManifest manifest) {
+    
+    }
+    
+    private void onTaskInitiate(RegistryRequestsTaskInitiate task) {
+    
+    }
+    
+    private void sendTrafficSummary() {
+    
     }
     
     public void start() {
         // Process console command and break when an exit status, AKA "exit", is returned
         InteractiveCommandParser parser = new InteractiveCommandParser();
         String command;
-        while ((command = parser.getConsoleCommand()).compareTo("exit") != 0) {
-            processConsoleCommand(command);
+        while ((command = parser.getConsoleCommand()) != null) {
+            if (!processConsoleCommand(command))
+                break;
         }
-    
-        serverThread.exitThread();
+        
+        try {
+            server.exit();
+            serverThread.join();
+        } catch (InterruptedException ie) {
+            System.out.println(ie.getMessage());
+        }
     }
     
-    private void processConsoleCommand(String command) {
+    private boolean processConsoleCommand(String command) {
         switch (command) {
             case "print-counters-and-diagnostics":
                 printCountersDiagnostics();
-                break;
+                return true;
             case "exit-overlay":
                 exitOverlay();
-                break;
+                return false;
         }
+        return true;
     }
     
     private void printCountersDiagnostics() {
@@ -101,7 +141,14 @@ public class MessagingNode implements Node {
     }
     
     private void exitOverlay() {
-    
+        Event dereg = new OverlayNodeSendsDeregistration(registryConnection.getLocalIpAddress(),
+                registryConnection.getLocalPortnum(), nodeId);
+        
+        try {
+            registryConnection.sendData(dereg.getBytes());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
     }
     
     public static void main(String[] args) {

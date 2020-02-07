@@ -6,18 +6,6 @@ import java.io.IOException;
 import java.net.*;
 
 public class TCPServerThread implements Runnable {
-
-    private Object threadExitLock;
-    private boolean threadExit;
-    public boolean hasThreadExited() { synchronized (threadExitLock) { return threadExit; } }
-    public void exitThread() {
-        try {
-            serverSocket.close();
-            serverSocket = null;
-        } catch (IOException ioe) {
-            // Do nothing
-        }
-    }
     
     private ServerSocket serverSocket;
     private Node node;
@@ -25,12 +13,10 @@ public class TCPServerThread implements Runnable {
     public TCPServerThread(Node node, ServerSocket serverSocket) {
         this.node = node;
         this.serverSocket = serverSocket;
-        threadExitLock = new Object();
-        threadExit = false;
     }
     
     public void run() {
-        while (serverSocket != null && !serverSocket.isClosed()) {
+        while (!serverSocket.isClosed()) {
             try {
             
                 // Accept a new connection to the server and create a socket
@@ -44,9 +30,13 @@ public class TCPServerThread implements Runnable {
                 // Do nothing
             }
         }
-        
-        synchronized (threadExitLock) {
-            threadExit = true;
+    }
+    
+    public void exit() {
+        try {
+            serverSocket.close();
+        } catch (IOException ioe) {
+            // Do nothing
         }
     }
 
