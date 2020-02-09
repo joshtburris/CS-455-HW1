@@ -10,8 +10,8 @@ public class RegistrySendsNodeManifest extends Event {
     private ArrayList<RoutingEntry> entries;
     public ArrayList<RoutingEntry> getEntries() { return entries; }
     
-    private int[] allNodeIds;
-    public int[] getAllNodeIds() { return allNodeIds; }
+    private Integer[] allNodeIds;
+    public Integer[] getAllNodeIds() { return allNodeIds; }
     
     public byte getType() { return Protocol.REGISTRY_SENDS_NODE_MANIFEST; }
     
@@ -47,7 +47,7 @@ public class RegistrySendsNodeManifest extends Event {
         return marshalledBytes;
     }
     
-    public RegistrySendsNodeManifest(ArrayList<RoutingEntry> entries, int[] allNodeIds) {
+    public RegistrySendsNodeManifest(ArrayList<RoutingEntry> entries, Integer[] allNodeIds) {
         this.entries = entries;
         this.allNodeIds = allNodeIds;
     }
@@ -70,7 +70,7 @@ public class RegistrySendsNodeManifest extends Event {
         }
         
         len = din.readByte();
-        allNodeIds = new int[len];
+        allNodeIds = new Integer[len];
         for (int i = 0; i < len; ++i)
             allNodeIds[i] = din.readInt();
         

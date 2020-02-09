@@ -8,7 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e0d5f34f-5b58-4dec-a60d-e422228c0190" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/node/Registry.java" afterPath="$PROJECT_DIR$/cs455/overlay/node/Registry.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/start-nodes.sh" afterPath="$PROJECT_DIR$/start-nodes.sh" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -32,8 +31,8 @@
       <file leaf-file-name="Registry.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cs455/overlay/node/Registry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="242" column="25" lean-forward="true" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="25" />
+            <state relative-caret-position="307">
+              <caret line="283" column="85" lean-forward="true" selection-start-line="283" selection-start-column="85" selection-end-line="283" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
@@ -42,6 +41,7 @@
                 <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
                 <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
                 <element signature="method#start#0;class#Registry#0" expanded="false" />
+                <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
                 <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
                 <element signature="method#main#0;class#Registry#0" expanded="false" />
               </folding>
@@ -52,8 +52,8 @@
       <file leaf-file-name="RoutingTable.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+            <state relative-caret-position="187">
+              <caret line="12" column="4" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -143,10 +143,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="854" />
+    <option name="x" value="960" />
     <option name="y" value="31" />
-    <option name="width" value="1706" />
-    <option name="height" value="1358" />
+    <option name="width" value="960" />
+    <option name="height" value="1118" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -182,10 +182,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -243,6 +240,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -437,12 +437,13 @@
       <workItem from="1581028048836" duration="1933000" />
       <workItem from="1581030331566" duration="3036000" />
       <workItem from="1581044254320" duration="16662000" />
-      <workItem from="1581109217445" duration="2290000" />
+      <workItem from="1581109217445" duration="2553000" />
+      <workItem from="1581221876472" duration="766000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108182000" />
+    <option name="totallyTimeSpent" value="109211000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -454,23 +455,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="854" y="31" width="1706" height="1358" extended-state="0" />
+    <frame x="960" y="31" width="960" height="1118" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.327787" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19966722" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.327787" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24948025" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19951633" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38325992" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -482,6 +482,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930514" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -512,6 +513,7 @@
             <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#start#0;class#Registry#0" expanded="false" />
+            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
             <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
             <element signature="method#main#0;class#Registry#0" expanded="false" />
           </folding>
@@ -578,6 +580,7 @@
             <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#start#0;class#Registry#0" expanded="false" />
+            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
             <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
             <element signature="method#main#0;class#Registry#0" expanded="false" />
           </folding>
@@ -626,6 +629,7 @@
             <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#start#0;class#Registry#0" expanded="false" />
+            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
             <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
             <element signature="method#main#0;class#Registry#0" expanded="false" />
           </folding>
@@ -674,6 +678,7 @@
             <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#start#0;class#Registry#0" expanded="false" />
+            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
             <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
             <element signature="method#main#0;class#Registry#0" expanded="false" />
           </folding>
@@ -765,6 +770,7 @@
             <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#start#0;class#Registry#0" expanded="false" />
+            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
             <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
             <element signature="method#main#0;class#Registry#0" expanded="false" />
           </folding>
@@ -1023,8 +1029,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+        <state relative-caret-position="187">
+          <caret line="12" column="4" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1033,8 +1039,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cs455/overlay/node/Registry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="242" column="25" lean-forward="true" selection-start-line="242" selection-start-column="25" selection-end-line="242" selection-end-column="25" />
+        <state relative-caret-position="307">
+          <caret line="283" column="85" lean-forward="true" selection-start-line="283" selection-start-column="85" selection-end-line="283" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
@@ -1043,6 +1049,7 @@
             <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
             <element signature="method#start#0;class#Registry#0" expanded="false" />
+            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
             <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
             <element signature="method#main#0;class#Registry#0" expanded="false" />
           </folding>

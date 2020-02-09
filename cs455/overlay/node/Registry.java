@@ -14,13 +14,13 @@ public class Registry implements Node {
     
     private TCPServerThread server;
     private Thread serverThread;
-    private TreeMap<Integer, RoutingTable> routingTables;
+    private RoutingTablesCache tablesCache;
     private TCPConnectionsCache connectionsCache;
     
     private int uniqueID = 0;
     private synchronized int getUniqueID() {
         int tmp = uniqueID;
-        while (routingTables.containsKey(tmp)) {
+        while (tablesCache.containsKey(tmp)) {
             ++tmp;
             if (tmp < 0 || tmp > 127) tmp = 0;
         }
@@ -30,7 +30,7 @@ public class Registry implements Node {
     }
     
     public Registry(int portnum) {
-        routingTables = new TreeMap<>();
+        tablesCache = new RoutingTablesCache();
         connectionsCache = new TCPConnectionsCache();
     
         // Initialize the serverSocket starting with port portnum, increasing the portnum until one doesn't give an
@@ -93,7 +93,7 @@ public class Registry implements Node {
         }
         
         // Check if node has been previously registered
-        for (RoutingTable entry : routingTables.values()) {
+        for (RoutingTable entry : tablesCache.getValues()) {
             if (Arrays.equals(entry.getIpAddress(), reg.getIpAddress())
                     && entry.getPortnum() == reg.getPortnum()) {
                 
@@ -114,12 +114,12 @@ public class Registry implements Node {
         
         // Add a new entry to the list of routing tables
         RoutingTable newEntry = new RoutingTable(reg.getIpAddress(), reg.getPortnum(), nodeId);
-        routingTables.put(nodeId, newEntry);
+        tablesCache.add(nodeId, newEntry);
         
         // Send the successful registration status to the messaging node
         RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(nodeId, "Registration " +
                 "request successful. The number of messaging nodes currently constituting the overlay is ("+
-                routingTables.size() +")");
+                tablesCache.size() +")");
         
         try {
             messagingNode.sendData(report.getBytes());
@@ -150,7 +150,7 @@ public class Registry implements Node {
         
         // Check if node has been registered, if so then deregister
         // Send error if node isn't currently registered
-        if (!routingTables.containsKey(dereg.getNodeId())) {
+        if (!tablesCache.containsKey(dereg.getNodeId())) {
             
             Event report = new RegistryReportsRegistrationStatus(-1, "Deregistration request unsuccessful. " +
                     "You were not registered with the registry.");
@@ -166,7 +166,7 @@ public class Registry implements Node {
         }
             
         // Deregister messaging node
-        routingTables.remove(dereg.getNodeId());
+        tablesCache.remove(dereg.getNodeId());
         
         // Send the successful deregistration status to the messaging node
         Event report = new RegistryReportsDeregistrationStatus(dereg.getNodeId(), "Deregistration " +
@@ -189,16 +189,66 @@ public class Registry implements Node {
     
     private void onOverlaySetupStatus(NodeReportsOverlaySetupStatus status) {
     
-    
-    
-        System.out.println("Registry now ready to initiate tasks.");
+        // Increase the number of setup nodes if a successful setup status was returned
+        if (status.getNodeId() != -1) {
+            tablesCache.nodeIsSetup(status.getNodeId());
+            
+            // Inform the user of the status of the node in setting up connections to the nodes that are apart of its
+            // routing table
+            System.out.println("Node "+ status.getNodeId() +": "+ status.getInfoString());
+            
+            // If all of the nodes reported a successful status then notify the user that we are ready to initiate
+            // tasks
+            if (tablesCache.areAllNodesSetup())
+                System.out.println("Registry now ready to initiate tasks.");
+        }
+        
     }
     
     private void onTaskFinished(OverlayNodeReportsTaskFinished task) {
     
+        // Increase the number of finished nodes
+        tablesCache.nodeIsFinished(task.getNodeId());
+        
+        // If all nodes have reported finished tasks then request a traffic summary
+        if (tablesCache.areAllNodesFinished()) {
+            Event request = new RegistryRequestsTrafficSummary();
+            
+            for (TCPConnection con : connectionsCache.getValues()) {
+                try {
+                    con.sendData(request.getBytes());
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
+            }
+        }
+    
     }
     
     private void onTrafficSummary(OverlayNodeReportsTrafficSummary summary) {
+    
+        tablesCache.nodeHasSummary(summary.getNodeId(), summary.getStats());
+        
+        if (tablesCache.allNodesHaveSummaries()) {
+            
+            StatisticsCollectorAndDisplay totalStats = new StatisticsCollectorAndDisplay();
+            
+            System.out.println(" \t Packets sent \t Packets Received \t Packets Relayed \t Sum Values Sent \t " +
+                    "Sum Values Received");
+            
+            for (Entry<Integer, StatisticsCollectorAndDisplay> entries : tablesCache.getSummaries()) {
+                StatisticsCollectorAndDisplay val = entries.getValue();
+                totalStats.addTotalPacketsSent(val.getTotalPacketsSent());
+                totalStats.addTotalPacketsReceived(val.getTotalPacketsReceived());
+                totalStats.addTotalPacketsRelayed(val.getTotalPacketsRelayed());
+                totalStats.addDataSent(val.getSumDataSent());
+                totalStats.addDataReceived(val.getSumDataReceived());
+                
+                System.out.println("Node "+ entries.getKey() +" \t "+ val.toString());
+            }
+    
+            System.out.println("Sum \t "+ totalStats.toString());
+        }
     
     }
     
@@ -259,7 +309,7 @@ public class Registry implements Node {
         // This should result in information about the messaging nodes (hostname, port-number, and node ID)
         // being listed. Information for each messaging node should be listed on a separate line.
     
-        for (Entry<Integer, RoutingTable> entry : routingTables.entrySet()) {
+        for (Entry<Integer, RoutingTable> entry : tablesCache.getEntries()) {
             RoutingTable table = entry.getValue();
             System.out.println(table.getHostName() +"\t"+ table.getPortnum() +"\t"+ table.getNodeId());
         }
@@ -273,18 +323,22 @@ public class Registry implements Node {
         // after the overlay has been set up. You must however deal with the case where a messaging node
         // registers and deregisters from the registry before the overlay is set up.
         
-        Integer[] keys = new Integer[routingTables.size()];
-        RoutingTable[] values = new RoutingTable[routingTables.size()];
-        routingTables.values().toArray(values);
-        routingTables.keySet().toArray(keys);
+        Integer[] keys = new Integer[tablesCache.size()];
+        RoutingTable[] values = new RoutingTable[tablesCache.size()];
+        tablesCache.getValues().toArray(values);
+        tablesCache.getKeys().toArray(keys);
         
         int tableIndex = 0;
-        for (RoutingTable table : routingTables.values()) {
+        for (RoutingTable table : tablesCache.getValues()) {
         
+            // Clear any previous routing entries from the messaging node
+            table.clearEntries();
+            
+            // Calculate routing entries
             for (int dist = 1; dist < Math.pow(2, numRoutingTableEntries); dist*=2) {
             
                 int i = tableIndex+dist;
-                if (i >= keys.length)
+                while (i >= keys.length)
                     i -= keys.length;
                 
                 if (i != tableIndex) {
@@ -295,11 +349,15 @@ public class Registry implements Node {
             
             ++tableIndex;
     
-            System.out.println("Host: "+ table.getHostName());
-            for (RoutingEntry entry : table.getEntries())
-                System.out.println(IpAddressParser.parseByteArray(entry.getIpAddress()) +"\t"+ entry.getPortnum() +
-                "\t"+ entry.getNodeId());
-            System.out.println();
+            // Send manifest to the node
+            Event manifest = new RegistrySendsNodeManifest(table.getEntries(), keys);
+            
+            try {
+                connectionsCache.get(table.getIpAddress(), table.getPortnum()).sendData(manifest.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+            
         }
         
     }
@@ -309,14 +367,28 @@ public class Registry implements Node {
         // Each messaging node’s information should be well separated (i.e., have 3-4 blank lines between
         // node listings) and should include the node’s IP address, portnum, and logical-ID. This is
         // useful for debugging.
-        
+        for (RoutingTable table : tablesCache.getValues()) {
+            System.out.println("Host: " + table.getHostName());
+            for (RoutingEntry entry : table.getEntries())
+                System.out.println(IpAddressParser.parseByteArray(entry.getIpAddress()) + "\t" + entry.getPortnum() +
+                        "\t" + entry.getNodeId());
+            System.out.println();
+        }
     }
     
     private void startOverlay(int numMessages) {
         // The start command results in the registry sending the REGISTRY_REQUESTS_TASK_INITIATE to all
         // nodes within the overlay. A command of start 25000 results in each messaging node sending 25000
         // packets to nodes chosen at random (of course, a node should not send a packet to itself)
+        Event task = new RegistryRequestsTaskInitiate(numMessages);
         
+        for (TCPConnection con : connectionsCache.getValues()) {
+            try {
+                con.sendData(task.getBytes());
+            } catch (IOException ioe) {
+                System.out.println(ioe.getMessage());
+            }
+        }
     }
     
     public static void main(String[] args) {

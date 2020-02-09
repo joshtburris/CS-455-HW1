@@ -3,6 +3,8 @@ package cs455.overlay.transport;
 import cs455.overlay.util.IpAddressParser;
 
 import java.io.IOException;
+import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.*;
 
 public class TCPConnectionsCache {
@@ -36,6 +38,12 @@ public class TCPConnectionsCache {
     public TCPConnection get(byte[] ipAddress, int portnum) {
         return map.get(IpAddressParser.parseByteArray(ipAddress) +":"+ portnum);
     }
+    
+    public Set<Entry<String, TCPConnection>> getEntries() { return map.entrySet(); }
+    
+    public Collection<String> getKeys() { return Collections.list(map.keys()); }
+    
+    public Collection<TCPConnection> getValues() { return map.values(); }
     
     public void closeAll() {
         synchronized (map) {

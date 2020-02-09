@@ -1,5 +1,7 @@
 package cs455.overlay.wireformats;
 
+import cs455.overlay.util.StatisticsCollectorAndDisplay;
+
 import java.io.*;
 
 public class OverlayNodeReportsTrafficSummary extends Event {
@@ -32,6 +34,11 @@ public class OverlayNodeReportsTrafficSummary extends Event {
     private long sumDataReceived;
     public long getSumDataReceived() {
         return sumDataReceived;
+    }
+    
+    private StatisticsCollectorAndDisplay stats;
+    public StatisticsCollectorAndDisplay getStats() {
+        return stats;
     }
     
     public byte getType() {
@@ -69,6 +76,18 @@ public class OverlayNodeReportsTrafficSummary extends Event {
         this.sumDataSent = sumDataSent;
         this.totalPacketsReceived = totalPacketsReceived;
         this.sumDataReceived = sumDataReceived;
+        
+        stats = new StatisticsCollectorAndDisplay(totalPacketsSent, totalPacketsRelayed, sumDataSent,
+                totalPacketsReceived, sumDataReceived);
+    }
+    
+    public OverlayNodeReportsTrafficSummary(StatisticsCollectorAndDisplay stats) {
+        this.stats = stats;
+        totalPacketsSent = stats.getTotalPacketsSent();
+        totalPacketsRelayed = stats.getTotalPacketsRelayed();
+        sumDataSent = stats.getSumDataSent();
+        totalPacketsReceived = stats.getTotalPacketsReceived();
+        sumDataReceived = stats.getSumDataReceived();
     }
     
     public OverlayNodeReportsTrafficSummary(ByteArrayInputStream baInputStream, DataInputStream din)
