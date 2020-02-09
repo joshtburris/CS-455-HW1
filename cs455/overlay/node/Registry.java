@@ -77,6 +77,8 @@ public class Registry implements Node {
     private void registerMessagingNode(OverlayNodeSendsRegistration reg) {
         
         TCPConnection messagingNode = connectionsCache.get(reg.getIpAddress(), reg.getPortnum());
+        connectionsCache.add(reg.getIpAddress(), reg.getPortnum(), connectionsCache.get(reg.getIpAddress(),
+                reg.));
         
         // Ensure the IP Address matches the address where the request originated.
         if (!Arrays.equals(reg.getIpAddress(), messagingNode.getRemoteIpAddress())) {
@@ -114,12 +116,12 @@ public class Registry implements Node {
         
         // Add a new entry to the list of routing tables
         RoutingTable newEntry = new RoutingTable(reg.getIpAddress(), reg.getPortnum(), nodeId);
-        tablesCache.add(nodeId, newEntry);
+        int size = tablesCache.add(nodeId, newEntry);
         
         // Send the successful registration status to the messaging node
         RegistryReportsRegistrationStatus report = new RegistryReportsRegistrationStatus(nodeId, "Registration " +
                 "request successful. The number of messaging nodes currently constituting the overlay is ("+
-                tablesCache.size() +")");
+                size +")");
         
         try {
             messagingNode.sendData(report.getBytes());
@@ -237,7 +239,9 @@ public class Registry implements Node {
                     "Sum Values Received");
             
             for (Entry<Integer, StatisticsCollectorAndDisplay> entries : tablesCache.getSummaries()) {
+                
                 StatisticsCollectorAndDisplay val = entries.getValue();
+                
                 totalStats.addTotalPacketsSent(val.getTotalPacketsSent());
                 totalStats.addTotalPacketsReceived(val.getTotalPacketsReceived());
                 totalStats.addTotalPacketsRelayed(val.getTotalPacketsRelayed());
