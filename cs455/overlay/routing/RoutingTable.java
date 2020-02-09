@@ -1,5 +1,7 @@
 package cs455.overlay.routing;
 
+import cs455.overlay.util.StatisticsCollectorAndDisplay;
+
 import java.net.*;
 import java.util.ArrayList;
 
@@ -19,12 +21,22 @@ public class RoutingTable {
     
     private ArrayList<RoutingEntry> entries;
     public ArrayList<RoutingEntry> getEntries() {
-        return entries;
+        ArrayList<RoutingEntry> arr;
+        synchronized (entries) {
+            arr = new ArrayList<>(entries);
+        }
+        return arr;
     }
     
     public void addEntry(RoutingEntry entry) {
         synchronized (entries) {
             entries.add(entry);
+        }
+    }
+    
+    public void clearEntries() {
+        synchronized (entries) {
+            entries.clear();
         }
     }
     
