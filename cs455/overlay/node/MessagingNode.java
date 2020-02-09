@@ -17,9 +17,11 @@ public class MessagingNode implements Node {
     private TCPConnectionsCache connectionsCache;
     private StatisticsCollectorAndDisplay stats;
     private int nodeId;
+    private Integer[] allNodeIds;
     
     public MessagingNode(String hostname, int portnum) {
         connectionsCache = new TCPConnectionsCache();
+        stats = new StatisticsCollectorAndDisplay();
         
         try {
             // Initialize the serverSocket to any open port
@@ -35,8 +37,8 @@ public class MessagingNode implements Node {
             registryConnection = new TCPConnection(this, socket);
     
             OverlayNodeSendsRegistration reg = new OverlayNodeSendsRegistration(
-                    registryConnection.getLocalIpAddress(), registryConnection.getLocalPortnum());
-    
+                    registryConnection.getLocalIpAddress(), serverSocket.getLocalPort());
+            System.out.println(serverSocket.getLocalPort());
             registryConnection.sendData(reg.getBytes());
             
         } catch (UnknownHostException uhe) {
@@ -60,6 +62,9 @@ public class MessagingNode implements Node {
                 break;
             case Protocol.REGISTRY_REQUESTS_TASK_INITIATE:
                 onTaskInitiate((RegistryRequestsTaskInitiate)event);
+                break;
+            case Protocol.OVERLAY_NODE_SENDS_DATA:
+                onDataReceived((OverlayNodeSendsData)event);
                 break;
             case Protocol.REGISTRY_REQUESTS_TRAFFIC_SUMMARY:
                 sendTrafficSummary();
@@ -96,15 +101,51 @@ public class MessagingNode implements Node {
     }
     
     private void receiveNodeManifest(RegistrySendsNodeManifest manifest) {
+        routingTable.clearEntries();
+        routingTable.addAllEntries(manifest.getEntries());
+        allNodeIds = manifest.getAllNodeIds();
     
+        try {
+            
+            for (RoutingEntry entry : manifest.getEntries()) {
+    
+                Socket socket = new Socket(Inet4Address.getByAddress(entry.getIpAddress()), entry.getPortnum());
+                TCPConnection con = new TCPConnection(this, socket);
+                connectionsCache.add(entry.getIpAddress(), entry.getPortnum(), con);
+            
+            }
+            
+            Event status = new NodeReportsOverlaySetupStatus(nodeId, "Node manifest was successfully received and " +
+                    "initiated");
+        
+            registryConnection.sendData(status.getBytes());
+            
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     private void onTaskInitiate(RegistryRequestsTaskInitiate task) {
     
+        // Reset your statistics
+        stats.reset();
+    
+    }
+    
+    private void onDataReceived(OverlayNodeSendsData data) {
+    
     }
     
     private void sendTrafficSummary() {
-    
+        Event summary = new OverlayNodeReportsTrafficSummary(stats);
+        
+        try {
+            registryConnection.sendData(summary.getBytes());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
     }
     
     public void start() {
@@ -137,10 +178,17 @@ public class MessagingNode implements Node {
     }
     
     private void printCountersDiagnostics() {
-    
+        // This should print information (to the console using System.out) about the number of messages that have been
+        // sent, received, and relayed along with the sums for the messages that have been sent from and received at
+        // the node.
+        System.out.println("Packets sent \t Packets Received \t Packets Relayed \t Sum Values Sent \t " +
+                "Sum Values Received");
+        System.out.println(stats.toString());
     }
     
     private void exitOverlay() {
+        // This allows a messaging node to exit the overlay. The messaging node should first send a deregistration
+        // message to the registry and await for a response before exiting and terminating the process.
         Event dereg = new OverlayNodeSendsDeregistration(registryConnection.getLocalIpAddress(),
                 registryConnection.getLocalPortnum(), nodeId);
         

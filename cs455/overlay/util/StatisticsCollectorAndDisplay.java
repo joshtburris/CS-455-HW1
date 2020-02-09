@@ -33,11 +33,7 @@ public class StatisticsCollectorAndDisplay {
     public void addDataReceived(long data) { sumDataReceived += data; }
     
     public StatisticsCollectorAndDisplay() {
-        totalPacketsSent = 0;
-        totalPacketsRelayed = 0;
-        sumDataSent = 0;
-        totalPacketsReceived = 0;
-        sumDataReceived = 0;
+        this(0, 0, 0, 0, 0);
     }
     
     public StatisticsCollectorAndDisplay(int totalPacketsSent, int totalPacketsRelayed, long sumDataSent,
@@ -47,6 +43,14 @@ public class StatisticsCollectorAndDisplay {
         this.sumDataSent = sumDataSent;
         this.totalPacketsReceived = totalPacketsReceived;
         this.sumDataReceived = sumDataReceived;
+    }
+    
+    public void reset() {
+        totalPacketsSent = 0;
+        totalPacketsRelayed = 0;
+        sumDataSent = 0;
+        totalPacketsReceived = 0;
+        sumDataReceived = 0;
     }
     
     public String toString() {

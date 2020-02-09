@@ -32,6 +32,8 @@ public class TCPServerThread implements Runnable {
         }
     }
     
+    public int getLocalPort() { return serverSocket.getLocalPort(); }
+    
     public void exit() {
         try {
             serverSocket.close();

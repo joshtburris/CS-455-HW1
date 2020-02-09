@@ -34,6 +34,10 @@ public class RoutingTable {
         }
     }
     
+    public void addAllEntries(ArrayList<RoutingEntry> entries) {
+        this.entries.addAll(entries);
+    }
+    
     public void clearEntries() {
         synchronized (entries) {
             entries.clear();

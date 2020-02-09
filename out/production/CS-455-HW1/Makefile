@@ -10,4 +10,4 @@ registry:
 messaging-node:
 	javac ./cs455/overlay/node/MessagingNode.java
 	clear
-	java cs455.overlay.node.MessagingNode hong-kong 1024
+	java cs455.overlay.node.MessagingNode monarch 1024

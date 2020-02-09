@@ -20,8 +20,13 @@ public class RoutingTablesCache {
         summaryNodes = new ConcurrentHashMap<>();
     }
     
-    public void add(Integer nodeId, RoutingTable table) {
-        map.put(nodeId, table);
+    public int add(Integer nodeId, RoutingTable table) {
+        int size;
+        synchronized (map) {
+            map.put(nodeId, table);
+            size = map.size();
+        }
+        return size;
     }
     
     public void remove(Integer nodeId) {
