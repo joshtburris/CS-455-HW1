@@ -15,7 +15,7 @@ public class InteractiveCommandParser {
     public String getConsoleCommand() {
         
         // Read in a console commands
-        System.out.print(">>> ");
+        //System.out.print(">>> ");
         return in.nextLine().trim().toLowerCase();
     }
 

@@ -7,6 +7,9 @@ import cs455.overlay.wireformats.*;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class MessagingNode implements Node {
     
@@ -16,12 +19,13 @@ public class MessagingNode implements Node {
     private RoutingTable routingTable;
     private TCPConnectionsCache connectionsCache;
     private StatisticsCollectorAndDisplay stats;
-    private int nodeId;
-    private Integer[] allNodeIds;
+    private volatile int nodeId;
+    private ArrayList<Integer> allNodeIds;
     
     public MessagingNode(String hostname, int portnum) {
         connectionsCache = new TCPConnectionsCache();
         stats = new StatisticsCollectorAndDisplay();
+        nodeId = -1;
         
         try {
             // Initialize the serverSocket to any open port
@@ -38,7 +42,7 @@ public class MessagingNode implements Node {
     
             OverlayNodeSendsRegistration reg = new OverlayNodeSendsRegistration(
                     registryConnection.getLocalIpAddress(), serverSocket.getLocalPort());
-            System.out.println(serverSocket.getLocalPort());
+            
             registryConnection.sendData(reg.getBytes());
             
         } catch (UnknownHostException uhe) {
@@ -49,7 +53,7 @@ public class MessagingNode implements Node {
         
     }
     
-    public void onEvent(Event event) {
+    public void onEvent(Socket socket, Event event) {
         switch (event.getType()) {
             case Protocol.REGISTRY_REPORTS_REGISTRATION_STATUS:
                 onRegistrationStatus((RegistryReportsRegistrationStatus)event);
@@ -80,7 +84,7 @@ public class MessagingNode implements Node {
         
         if (status.getNodeId() != -1) {
             routingTable = new RoutingTable(registryConnection.getLocalIpAddress(),
-                    registryConnection.getLocalPortnum(), status.getNodeId());
+                    registryConnection.getLocalPortnum(), server.getLocalPort(), status.getNodeId());
             
             nodeId = status.getNodeId();
         }
@@ -103,8 +107,11 @@ public class MessagingNode implements Node {
     private void receiveNodeManifest(RegistrySendsNodeManifest manifest) {
         routingTable.clearEntries();
         routingTable.addAllEntries(manifest.getEntries());
-        allNodeIds = manifest.getAllNodeIds();
+        allNodeIds = new ArrayList<>();
+        Collections.addAll(allNodeIds, manifest.getAllNodeIds());
+        allNodeIds.remove(allNodeIds.indexOf(nodeId));
     
+        String errMessage = "An error occurred in receiving the node manifest. ";
         try {
             
             for (RoutingEntry entry : manifest.getEntries()) {
@@ -116,30 +123,114 @@ public class MessagingNode implements Node {
             }
             
             Event status = new NodeReportsOverlaySetupStatus(nodeId, "Node manifest was successfully received and " +
-                    "initiated");
+                    "initiated.");
         
             registryConnection.sendData(status.getBytes());
             
+            // We can return here because no errors have occurred.
+            return;
+            
+        } catch (IOException ioe) {
+            errMessage += "IOException: " +ioe.getMessage();
+            System.out.println(ioe.getMessage());
+        }
+        
+        
+        // If we hit this point it means an error occurred and we need to inform the registry.
+        Event status = new NodeReportsOverlaySetupStatus(nodeId, errMessage);
+        try {
+            registryConnection.sendData(status.getBytes());
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
     
     private void onTaskInitiate(RegistryRequestsTaskInitiate task) {
-    
+        
         // Reset your statistics
         stats.reset();
+        
+        Random rand = new Random();
+        
+        for (int round = 0; round < task.getNumPackets(); ++round) {
+            
+            int sinkId = allNodeIds.get(rand.nextInt(allNodeIds.size()));
+            
+            int packet = rand.nextInt();
+            OverlayNodeSendsData event = new OverlayNodeSendsData(sinkId, nodeId, packet);
+            
+            relayToNextNode(event);
     
+            stats.addDataSent(packet);
+            stats.addTotalPacketsSent(1);
+            
+        }
+        
+        Event report = new OverlayNodeReportsTaskFinished(registryConnection.getLocalIpAddress(),
+                registryConnection.getLocalPortnum(), nodeId);
+        
+        try {
+            registryConnection.sendData(report.getBytes());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    
+    }
+    
+    private void relayToNextNode(OverlayNodeSendsData event) {
+    
+        ArrayList<RoutingEntry> entries = routingTable.getEntries();
+    
+        TCPConnection messagingNode = null;
+        for (RoutingEntry e : entries) {
+            
+            if (e.getNodeId() == event.getDestId()) {
+                messagingNode = connectionsCache.get(e.getIpAddress(), e.getPortnum());
+                break;
+            }
+            
+        }
+        
+        if (messagingNode == null) {
+            for (int i = entries.size() - 1; i >= 0; --i) {
+                RoutingEntry e = entries.get(i);
+                if (e.getNodeId() < event.getDestId()) {
+                    messagingNode = connectionsCache.get(e.getIpAddress(), e.getPortnum());
+                    break;
+                }
+            }
+        }
+        
+        if (messagingNode == null) {
+            RoutingEntry e = entries.get(entries.size() - 1);
+            messagingNode = connectionsCache.get(e.getIpAddress(), e.getPortnum());
+        }
+    
+        try {
+            messagingNode.sendData(event.getBytes());
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+        
     }
     
     private void onDataReceived(OverlayNodeSendsData data) {
     
+        if (data.getDestId() == nodeId) {
+            
+            stats.addDataReceived(data.getPayload());
+            stats.addTotalPacketsReceived(1);
+            
+        } else {
+        
+            stats.addTotalPacketsRelayed(1);
+            data.addNodeToDisTrace(nodeId);
+            relayToNextNode(data);
+        }
     }
     
     private void sendTrafficSummary() {
-        Event summary = new OverlayNodeReportsTrafficSummary(stats);
+        Event summary = new OverlayNodeReportsTrafficSummary(nodeId, stats);
         
         try {
             registryConnection.sendData(summary.getBytes());

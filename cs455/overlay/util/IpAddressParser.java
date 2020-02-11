@@ -7,11 +7,12 @@ public class IpAddressParser {
     }
     
     public static byte[] parseString(String ip) {
-        if (ip.charAt(0) == '/')
-            ip = ip.substring(1);
+        if (ip.contains("/"))
+            ip = ip.substring(ip.indexOf('/')+1);
         String[] stringBytes = ip.split("\\.");
-        return new byte[] { Byte.parseByte(stringBytes[0]), Byte.parseByte(stringBytes[1]),
-                Byte.parseByte(stringBytes[2]), Byte.parseByte(stringBytes[3])};
+        int[] barr = new int[] { Integer.parseInt(stringBytes[0]), Integer.parseInt(stringBytes[1]),
+                Integer.parseInt(stringBytes[2]), Integer.parseInt(stringBytes[3])};
+        return new byte[] { (byte)barr[0], (byte)barr[1], (byte)barr[2], (byte)barr[3]};
     }
     
 }

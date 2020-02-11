@@ -1,8 +1,7 @@
 package cs455.overlay.routing;
 
-import cs455.overlay.util.StatisticsCollectorAndDisplay;
-
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class RoutingTable {
@@ -13,8 +12,11 @@ public class RoutingTable {
     private byte[] ipAddress;
     public byte[] getIpAddress() { return ipAddress; }
     
-    private int portnum;
-    public int getPortnum() { return portnum; }
+    private int localPortnum;
+    public int getLocalPortnum() { return localPortnum; }
+    
+    private int serverPortnum;
+    public int getServerPortnum() { return serverPortnum; }
     
     private int nodeId;
     public int getNodeId() { return nodeId; }
@@ -44,9 +46,10 @@ public class RoutingTable {
         }
     }
     
-    public RoutingTable(byte[] ipAddress, int portnum, int nodeId) {
+    public RoutingTable(byte[] ipAddress, int localPortnum, int serverPortnum, int nodeId) {
         this.ipAddress = ipAddress;
-        this.portnum = portnum;
+        this.localPortnum = localPortnum;
+        this.serverPortnum = serverPortnum;
         this.nodeId = nodeId;
     
         entries = new ArrayList<>();

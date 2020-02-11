@@ -26,12 +26,8 @@ public class TCPConnection {
         String[] remoteSocketAddress = socket.getRemoteSocketAddress().toString().split(":");
         remotePortnum = Integer.parseInt(remoteSocketAddress[1]);
 
-        try {
-            remoteIpAddress = Inet4Address.getByName(remoteSocketAddress[0].split("/")[1]).getAddress();
-            remoteIpAddressString = IpAddressParser.parseByteArray(remoteIpAddress);
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
+        remoteIpAddress = IpAddressParser.parseString(remoteSocketAddress[0].split("/")[1]);
+        remoteIpAddressString = IpAddressParser.parseByteArray(remoteIpAddress);
         
         sender = new TCPSender(socket);
         receiver = new TCPReceiverThread(socket);
@@ -105,7 +101,7 @@ public class TCPConnection {
                     // Create an event from the EventFactory class using the data we just got from the stream
                     // and call the onEvent function for the node
                     Event event = EventFactory.getEvent(data);
-                    node.onEvent(event);
+                    node.onEvent(socket, event);
                     
                 } catch (SocketException se) {
                     // Do nothing

@@ -81,7 +81,8 @@ public class OverlayNodeReportsTrafficSummary extends Event {
                 totalPacketsReceived, sumDataReceived);
     }
     
-    public OverlayNodeReportsTrafficSummary(StatisticsCollectorAndDisplay stats) {
+    public OverlayNodeReportsTrafficSummary(int nodeId, StatisticsCollectorAndDisplay stats) {
+        this.nodeId = nodeId;
         this.stats = stats;
         totalPacketsSent = stats.getTotalPacketsSent();
         totalPacketsRelayed = stats.getTotalPacketsRelayed();
@@ -99,6 +100,9 @@ public class OverlayNodeReportsTrafficSummary extends Event {
         sumDataSent = din.readLong();
         totalPacketsReceived = din.readInt();
         sumDataReceived = din.readLong();
+        
+        stats = new StatisticsCollectorAndDisplay(totalPacketsSent, totalPacketsRelayed, sumDataSent,
+                totalPacketsReceived, sumDataReceived);
         
         baInputStream.close();
         din.close();
