@@ -2,35 +2,37 @@ package cs455.overlay.util;
 
 public class StatisticsCollectorAndDisplay {
     
-    private volatile int totalPacketsSent;
-    public int getTotalPacketsSent() {
+    private int totalPacketsSent;
+    public synchronized int getTotalPacketsSent() {
         return totalPacketsSent;
     }
-    public void addTotalPacketsSent(int packets) { totalPacketsSent += packets; }
+    public synchronized void addTotalPacketsSent(int packets) {
+        totalPacketsSent += packets;
+    }
     
-    private volatile int totalPacketsRelayed;
-    public int getTotalPacketsRelayed() {
+    private int totalPacketsRelayed;
+    public synchronized int getTotalPacketsRelayed() {
         return totalPacketsRelayed;
     }
-    public void addTotalPacketsRelayed(int packets) { totalPacketsRelayed += packets; }
+    public synchronized void addTotalPacketsRelayed(int packets) { totalPacketsRelayed += packets; }
     
-    private volatile long sumDataSent;
-    public long getSumDataSent() {
+    private long sumDataSent;
+    public synchronized long getSumDataSent() {
         return sumDataSent;
     }
-    public void addDataSent(long data) { sumDataSent += data; }
+    public synchronized void addDataSent(long data) { sumDataSent += data; }
     
-    private volatile int totalPacketsReceived;
-    public int getTotalPacketsReceived() {
+    private int totalPacketsReceived;
+    public synchronized int getTotalPacketsReceived() {
         return totalPacketsReceived;
     }
-    public void addTotalPacketsReceived(int packets) { totalPacketsReceived += packets; }
+    public synchronized void addTotalPacketsReceived(int packets) { totalPacketsReceived += packets; }
     
-    private volatile long sumDataReceived;
-    public long getSumDataReceived() {
+    private long sumDataReceived;
+    public synchronized long getSumDataReceived() {
         return sumDataReceived;
     }
-    public void addDataReceived(long data) { sumDataReceived += data; }
+    public synchronized void addDataReceived(long data) { sumDataReceived += data; }
     
     public StatisticsCollectorAndDisplay() {
         this(0, 0, 0, 0, 0);
@@ -45,7 +47,7 @@ public class StatisticsCollectorAndDisplay {
         this.sumDataReceived = sumDataReceived;
     }
     
-    public void reset() {
+    public synchronized void reset() {
         totalPacketsSent = 0;
         totalPacketsRelayed = 0;
         sumDataSent = 0;

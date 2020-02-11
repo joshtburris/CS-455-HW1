@@ -1,0 +1,9 @@
+plugins {
+    id 'java'
+}
+
+jar {
+    manifest {
+        attributes 'cs455.overlay.node.Registry.main': 'cs455.overlay.node.Registry'
+    }
+}
