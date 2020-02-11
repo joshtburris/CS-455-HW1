@@ -1,4 +1,4 @@
-
+HOSTNAME=$(shell hostname)
 
 all: registry messaging-node
 
@@ -10,4 +10,4 @@ registry:
 messaging-node:
 	javac ./cs455/overlay/node/MessagingNode.java
 	clear
-	java cs455.overlay.node.MessagingNode monarch 1024
+	java cs455.overlay.node.MessagingNode ${HOSTNAME} 1024

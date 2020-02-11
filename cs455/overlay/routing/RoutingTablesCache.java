@@ -4,20 +4,19 @@ import cs455.overlay.util.StatisticsCollectorAndDisplay;
 
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class RoutingTablesCache {
     
-    private ConcurrentHashMap<Integer, RoutingTable> map;
-    private ConcurrentHashMap<Integer, Boolean> setupNodes;
-    private ConcurrentHashMap<Integer, Boolean> finishedNodes;
-    private ConcurrentHashMap<Integer, StatisticsCollectorAndDisplay> summaryNodes;
+    private TreeMap<Integer, RoutingTable> map;
+    private TreeMap<Integer, Boolean> setupNodes;
+    private TreeMap<Integer, Boolean> finishedNodes;
+    private TreeMap<Integer, StatisticsCollectorAndDisplay> summaryNodes;
     
     public RoutingTablesCache() {
-        map = new ConcurrentHashMap<>();
-        setupNodes = new ConcurrentHashMap<>();
-        finishedNodes = new ConcurrentHashMap<>();
-        summaryNodes = new ConcurrentHashMap<>();
+        map = new TreeMap<>();
+        setupNodes = new TreeMap<>();
+        finishedNodes = new TreeMap<>();
+        summaryNodes = new TreeMap<>();
     }
     
     public int add(Integer nodeId, RoutingTable table) {
@@ -29,46 +28,120 @@ public class RoutingTablesCache {
         return size;
     }
     
-    public void remove(Integer nodeId) {
-        map.remove(nodeId);
+    public int remove(Integer nodeId) {
+        int size;
+        synchronized (map) {
+            map.remove(nodeId);
+            size = map.size();
+        }
+        return size;
     }
     
     public RoutingTable get(Integer nodeId) {
-        return map.get(nodeId);
+        RoutingTable table;
+        synchronized (map) {
+            table = map.get(nodeId);
+        }
+        return table;
     }
     
     public int size() {
-        return map.size();
+        int size;
+        synchronized (map) {
+            size = map.size();
+        }
+        return size;
     }
     
     public boolean containsKey(Integer nodeId) {
-        return map.containsKey(nodeId);
+        boolean contains;
+        synchronized (map) {
+            contains = map.containsKey(nodeId);
+        }
+        return contains;
     }
     
     public Set<Entry<Integer, RoutingTable>> getEntries() {
-        return map.entrySet();
+        Set<Entry<Integer, RoutingTable>> set;
+        synchronized (map) {
+            set = new TreeMap<>(map).entrySet();
+        }
+        return set;
     }
     
-    public Collection<Integer> getKeys() {
-        return Collections.list(map.keys());
+    public Set<Integer> getKeys() {
+        Set<Integer> keys;
+        synchronized (map) {
+            keys = new TreeMap<>(map).keySet();
+        }
+        return keys;
     }
     
     public Collection<RoutingTable> getValues() {
-        return map.values();
+        Collection<RoutingTable> values;
+        synchronized (map) {
+            values = new TreeMap<>(map).values();
+        }
+        return values;
     }
     
-    public void nodeIsSetup(int nodeId) { setupNodes.put(nodeId, true); }
+    public int nodeIsSetup(int nodeId) {
+        int size;
+        synchronized (map) {
+            setupNodes.put(nodeId, true);
+            size = setupNodes.size();
+        }
+        return size;
+    }
     
-    public void nodeIsFinished(int nodeId) { finishedNodes.put(nodeId, true); }
+    public int nodeIsFinished(int nodeId) {
+        int size;
+        synchronized (map) {
+            finishedNodes.put(nodeId, true);
+            size = finishedNodes.size();
+        }
+        return size;
+    }
     
-    public void nodeHasSummary(int nodeId, StatisticsCollectorAndDisplay stats) { summaryNodes.put(nodeId, stats); }
+    public int nodeHasSummary(int nodeId, StatisticsCollectorAndDisplay stats) {
+        int size;
+        synchronized (map) {
+            summaryNodes.put(nodeId, stats);
+            size = summaryNodes.size();
+        }
+        return size;
+    }
     
-    public boolean areAllNodesSetup() { return setupNodes.size() == map.size(); }
+    public boolean areAllNodesSetup() {
+        boolean b;
+        synchronized (map) {
+            b = setupNodes.size() == map.size();
+        }
+        return b;
+    }
     
-    public boolean areAllNodesFinished() { return finishedNodes.size() == map.size(); }
+    public boolean areAllNodesFinished() {
+        boolean b;
+        synchronized (map) {
+            b = finishedNodes.size() == map.size();
+        }
+        return b;
+    }
     
-    public boolean allNodesHaveSummaries() { return summaryNodes.size() == map.size(); }
+    public boolean allNodesHaveSummaries() {
+        boolean b;
+        synchronized (map) {
+            b = summaryNodes.size() == map.size();
+        }
+        return b;
+    }
     
-    public Set<Entry<Integer, StatisticsCollectorAndDisplay>> getSummaries() { return summaryNodes.entrySet(); }
+    public Set<Entry<Integer, StatisticsCollectorAndDisplay>> getSummaries() {
+        Set<Entry<Integer, StatisticsCollectorAndDisplay>> set;
+        synchronized (map) {
+            set = new TreeMap<>(summaryNodes).entrySet();
+        }
+        return set;
+    }
     
 }

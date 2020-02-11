@@ -54,7 +54,7 @@ public class StatisticsCollectorAndDisplay {
     }
     
     public String toString() {
-        return totalPacketsSent +" \t "+ totalPacketsReceived +" \t "+ totalPacketsRelayed +" \t "+ sumDataSent +" \t "
+        return totalPacketsSent +"\t"+ totalPacketsReceived +"\t"+ totalPacketsRelayed +"\t"+ sumDataSent +"\t"
                 + sumDataReceived;
     }
 
