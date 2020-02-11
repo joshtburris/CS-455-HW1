@@ -112,6 +112,12 @@ public class RoutingTablesCache {
         return size;
     }
     
+    public void resetSetupNodes() { setupNodes.clear(); }
+    
+    public void resetFinishedNodes() { finishedNodes.clear(); }
+    
+    public void resetSummaryNodes() { summaryNodes.clear(); }
+    
     public boolean areAllNodesSetup() {
         boolean b;
         synchronized (map) {

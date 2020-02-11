@@ -1,7 +1,5 @@
 HOSTNAME=$(shell hostname)
 
-all: registry messaging-node
-
 registry:
 	javac ./cs455/overlay/node/Registry.java
 	clear

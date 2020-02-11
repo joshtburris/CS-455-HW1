@@ -200,8 +200,14 @@ public class Registry implements Node {
             
             // If all of the nodes reported a successful status then notify the user that we are ready to initiate
             // tasks
-            if (size == tablesCache.size())
+            if (size == tablesCache.size()) {
+                
                 System.out.println("Registry now ready to initiate tasks.");
+    
+                // Reset the list of nodes that have been setup. We don't need it anymore and if we want to run it again
+                // we would run into problems.
+                tablesCache.resetSetupNodes();
+            }
         }
         
     }
@@ -217,7 +223,7 @@ public class Registry implements Node {
             
             // Sleep until all nodes have finished sending their messages.
             try {
-                Thread.sleep(100000);
+                Thread.sleep(10000);
             } catch (InterruptedException ie) {
                 System.out.println(ie.getMessage());
             }
@@ -229,6 +235,8 @@ public class Registry implements Node {
                     System.out.println(ioe.getMessage());
                 }
             }
+            
+            tablesCache.resetFinishedNodes();
         }
     
     }
@@ -257,7 +265,9 @@ public class Registry implements Node {
                 System.out.format("%10s%15s%20s%20s%20s%25s\n", ("Node "+ entries.getKey() +":\t"+ val).split("\t"));
             }
     
-            System.out.format("%10s%15s%20s%20s%20s%25s\n", ("Sum\t"+ totalStats).split("\t"));
+            System.out.format("%10s%15s%20s%20s%20s%25s\n", ("Sum:\t"+ totalStats).split("\t"));
+            
+            tablesCache.resetSummaryNodes();
         }
     
     }

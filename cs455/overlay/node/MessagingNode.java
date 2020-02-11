@@ -182,6 +182,8 @@ public class MessagingNode implements Node {
         ArrayList<RoutingEntry> entries = routingTable.getEntries();
     
         TCPConnection messagingNode = null;
+        
+        // Check if the destination node is in our routing table.
         for (RoutingEntry e : entries) {
             
             if (e.getNodeId() == event.getDestId()) {
@@ -205,6 +207,9 @@ public class MessagingNode implements Node {
             RoutingEntry e = entries.get(entries.size() - 1);
             messagingNode = connectionsCache.get(e.getIpAddress(), e.getPortnum());
         }
+        
+        //RoutingEntry e = entries.get(0);
+        //messagingNode = connectionsCache.get(e.getIpAddress(), e.getPortnum());
     
         try {
             messagingNode.sendData(event.getBytes());
@@ -216,16 +221,18 @@ public class MessagingNode implements Node {
     
     private void onDataReceived(OverlayNodeSendsData data) {
     
-        if (data.getDestId() == nodeId) {
-            
-            stats.addDataReceived(data.getPayload());
-            stats.addTotalPacketsReceived(1);
-            
-        } else {
+        synchronized (stats) {
+            if (data.getDestId() == nodeId) {
         
-            stats.addTotalPacketsRelayed(1);
-            data.addNodeToDisTrace(nodeId);
-            relayToNextNode(data);
+                stats.addDataReceived(data.getPayload());
+                stats.addTotalPacketsReceived(1);
+        
+            } else {
+        
+                stats.addTotalPacketsRelayed(1);
+                data.addNodeToDisTrace(nodeId);
+                relayToNextNode(data);
+            }
         }
     }
     
