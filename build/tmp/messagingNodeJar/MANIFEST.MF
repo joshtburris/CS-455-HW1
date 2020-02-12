@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Implementation-Title: messaging-node
+Main-Class: cs455.overlay.node.MessagingNode
+

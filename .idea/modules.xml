@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CS-455-HW1.iml" filepath="$PROJECT_DIR$/CS-455-HW1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CS-455-HW1.iml" filepath="$PROJECT_DIR$/.idea/modules/CS-455-HW1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CS-455-HW1_main.iml" filepath="$PROJECT_DIR$/.idea/modules/CS-455-HW1_main.iml" group="CS-455-HW1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CS-455-HW1_test.iml" filepath="$PROJECT_DIR$/.idea/modules/CS-455-HW1_test.iml" group="CS-455-HW1" />
     </modules>
   </component>
 </project>

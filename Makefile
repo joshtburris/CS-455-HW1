@@ -1,16 +1,11 @@
-HOSTNAME=$(shell hostname)
-
-all:
+build:
+	gradle clean
 	gradle tasks
 	gradle assemble
 	gradle build
 
 registry:
-	javac ./cs455/overlay/node/Registry.java
-	clear
-	java cs455.overlay.node.Registry 1024
+	java -cp ./build/libs/CS-455-HW1.jar cs455.overlay.node.Registry ${portnum}
 
 messaging-node:
-	javac ./cs455/overlay/node/MessagingNode.java
-	clear
-	java cs455.overlay.node.MessagingNode ${HOSTNAME} 1024
+	java -cp ./build/libs/CS-455-HW1.jar cs455.overlay.node.MessagingNode ${hostname} ${portnum}
