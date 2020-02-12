@@ -6,7 +6,7 @@ Assignment page: [Local PDF](CS455-Spring20-HW1-PC.pdf)
 
 ## Building
 
-<code>CS-455-HW1$ make</code>
+<code>CS-455-HW1$ ./build.sh</code>
 
 OR
 
@@ -22,7 +22,7 @@ OR
 
 ### Registry:
 
-<code>CS-455-HW1$ make registry portnum=<registry-port-number\></code>
+<code>CS-455-HW1$ ./registry.sh <registry-port-number\></code>
 
 OR
 
@@ -30,7 +30,7 @@ OR
 
 ### Messaging Node:
 
-<code>CS-455-HW1$ make messaging-node hostname=<registry-host-name\> portnum=<registry-port-number\></code>
+<code>CS-455-HW1$ ./messaging-node.sh <registry-host-name\> <registry-port-number\></code>
 
 OR
 
@@ -40,3 +40,4 @@ OR
 
 <code>CS-455-HW1$ ./start-nodes.sh</code>
 
+This script uses the file "conf/machine_list" as a way of spawning a large number of messaging nodes very quickly. It spawns one node per machine in the list and opens them all in a window of terminals. They all try to connect to the registry simultaneously. This will however fail if the registry didn't receive the port number 1024, which can be fixed in the script or possibly by restarting the registry. This rarely happens, but the registry will inform you of the port number it was assigned so that you can change the script accordingly.

@@ -328,9 +328,15 @@ public class Registry implements Node {
     private void listMessagingNodes() {
         // This should result in information about the messaging nodes (hostname, port-number, and node ID)
         // being listed. Information for each messaging node should be listed on a separate line.
-        for (Entry<Integer, RoutingTable> entry : tablesCache.getEntries()) {
-            RoutingTable table = entry.getValue();
-            System.out.format("%15s%10d%10d", table.getHostName(), table.getLocalPortnum(), table.getNodeId());
+    
+        if (tablesCache.size() == 0) {
+            System.out.println("There are currently no messaging nodes in the overlay.");
+            return;
+        }
+        
+        System.out.format("%15s%15s%10s\n", "Host Name", "Port Number", "Node ID");
+        for (RoutingTable table : tablesCache.getValues()) {
+            System.out.format("%15s%15d%10d\n", table.getHostName(), table.getLocalPortnum(), table.getNodeId());
         }
     }
     
@@ -386,11 +392,15 @@ public class Registry implements Node {
         // Each messaging node’s information should be well separated (i.e., have 3-4 blank lines between
         // node listings) and should include the node’s IP address, portnum, and logical-ID. This is
         // useful for debugging.
+        
+        if (tablesCache.size() == 0)
+            System.out.println("There are currently no messaging nodes in the overlay.");
+        
         for (RoutingTable table : tablesCache.getValues()) {
             System.out.println("Host: " + table.getHostName());
             for (RoutingEntry entry : table.getEntries())
-                System.out.println(IpAddressParser.parseByteArray(entry.getIpAddress()) + "\t" + entry.getPortnum() +
-                        "\t" + entry.getNodeId());
+                System.out.format("%15s%7d%5d\n", IpAddressParser.parseByteArray(entry.getIpAddress()),
+                        entry.getPortnum(), entry.getNodeId());
             System.out.println();
         }
     }
@@ -413,7 +423,14 @@ public class Registry implements Node {
     public static void main(String[] args) {
         
         // Take in the port number from the command line
-        int portnum = Integer.parseInt(args[0]);
+        int portnum;
+        try {
+            portnum = Integer.parseInt(args[0]);
+        } catch (Exception e) {
+            System.out.println("Error: Incorrect arguments. We need at least one integer argument to represent" +
+                    "the port number.");
+            return;
+        }
         
         // Initiate the Registry and call start().
         Registry registry = new Registry(portnum);

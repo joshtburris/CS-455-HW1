@@ -279,9 +279,9 @@ public class MessagingNode implements Node {
         // This should print information (to the console using System.out) about the number of messages that have been
         // sent, received, and relayed along with the sums for the messages that have been sent from and received at
         // the node.
-        System.out.println("Packets sent \t Packets Received \t Packets Relayed \t Sum Values Sent \t " +
+        System.out.format("%15s%20s%20s%20s%25s\n", "Packets sent", "Packets Received", "Packets Relayed", "Sum Values Sent",
                 "Sum Values Received");
-        System.out.println(stats.toString());
+        System.out.format("%15s%20s%20s%20s%25s\n", stats.toString().split("\t"));
     }
     
     private void exitOverlay() {
@@ -300,8 +300,16 @@ public class MessagingNode implements Node {
     public static void main(String[] args) {
     
         // Take in the registry host and port number from the command line
-        String hostname = args[0];
-        int portnum = Integer.parseInt(args[1]);
+        String hostname;
+        int portnum;
+        try {
+            hostname = args[0];
+            portnum = Integer.parseInt(args[1]);
+        } catch (Exception e) {
+            System.out.println("Error: Incorrect arguments. The first argument should be the host name of the " +
+                    "registry, and the second should be an integer to represent the port number of the registry.");
+            return;
+        }
         
         // Initiate the MessagingNode and call start().
         MessagingNode messagingNode = new MessagingNode(hostname, portnum);
