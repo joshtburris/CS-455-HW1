@@ -330,7 +330,7 @@ public class Registry implements Node {
         // being listed. Information for each messaging node should be listed on a separate line.
         for (Entry<Integer, RoutingTable> entry : tablesCache.getEntries()) {
             RoutingTable table = entry.getValue();
-            System.out.println(table.getHostName() +"\t"+ table.getLocalPortnum() +"\t"+ table.getNodeId());
+            System.out.format("%15s%10d%10d", table.getHostName(), table.getLocalPortnum(), table.getNodeId());
         }
     }
     

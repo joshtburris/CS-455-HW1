@@ -2,8 +2,42 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'java'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+    test {
+        java {
+            srcDir 'test'
+        }
+    }
+}
+
+task registryJar(type: Jar) {
+    manifest {
+        attributes ('Main-Class': 'cs455.overlay.node.Registry',
+                    'Implementation-Title': 'registry')
+    }
+}
+
+task messagingNodeJar(type: Jar) {
+    from(project.sourceSets.main.output) {
+        include "./**"
+    }
+    manifest {
+        attributes 'Main-Class': 'cs455.overlay.node.MessagingNode'
+                    //'Implementation-Title': 'messaging-node')
+    }
+    //baseName = 'messaging-node.jar'
+}
+
 jar {
     manifest {
-        attributes 'cs455.overlay.node.Registry.main': 'cs455.overlay.node.Registry'
+        attributes 'Main-Class': 'cs455.overlay.node.Registry'
+        attributes 'Main-Class': 'cs455.overlay.node.MessagingNode'
     }
 }
