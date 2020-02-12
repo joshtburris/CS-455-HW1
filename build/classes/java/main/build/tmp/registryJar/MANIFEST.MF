@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: registry
-Main-Class: cs455.overlay.node.Registry
-
