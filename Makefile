@@ -1,5 +1,10 @@
 HOSTNAME=$(shell hostname)
 
+all:
+	gradle tasks
+	gradle assemble
+	gradle build
+
 registry:
 	javac ./cs455/overlay/node/Registry.java
 	clear

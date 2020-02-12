@@ -5,6 +5,12 @@ import cs455.overlay.util.StatisticsCollectorAndDisplay;
 import java.util.*;
 import java.util.Map.Entry;
 
+/**
+ * This class is designed to be a thread safe implementation of basic TreeMap functions for a collection of
+ * RoutingTable's. It also contains additional functionality to keep track of node states such as which nodes have been
+ * fully setup, which nodes have finished sending their rounds of packets, and which nodes have provided a summary of
+ * their package statistics.
+ */
 public class RoutingTablesCache {
     
     private TreeMap<Integer, RoutingTable> map;
@@ -112,34 +118,22 @@ public class RoutingTablesCache {
         return size;
     }
     
-    public void resetSetupNodes() { setupNodes.clear(); }
-    
-    public void resetFinishedNodes() { finishedNodes.clear(); }
-    
-    public void resetSummaryNodes() { summaryNodes.clear(); }
-    
-    public boolean areAllNodesSetup() {
-        boolean b;
-        synchronized (map) {
-            b = setupNodes.size() == map.size();
+    public void resetSetupNodes() {
+        synchronized (setupNodes) {
+            setupNodes.clear();
         }
-        return b;
     }
     
-    public boolean areAllNodesFinished() {
-        boolean b;
-        synchronized (map) {
-            b = finishedNodes.size() == map.size();
+    public void resetFinishedNodes() {
+        synchronized (finishedNodes) {
+            finishedNodes.clear();
         }
-        return b;
     }
     
-    public boolean allNodesHaveSummaries() {
-        boolean b;
-        synchronized (map) {
-            b = summaryNodes.size() == map.size();
+    public void resetSummaryNodes() {
+        synchronized (summaryNodes) {
+            summaryNodes.clear();
         }
-        return b;
     }
     
     public Set<Entry<Integer, StatisticsCollectorAndDisplay>> getSummaries() {
