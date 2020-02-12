@@ -7,14 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0d5f34f-5b58-4dec-a60d-e422228c0190" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/node/Registry.class" afterPath="$PROJECT_DIR$/cs455/overlay/node/Registry.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.class" afterPath="$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.class" afterPath="$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.class" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/CS_455_HW1_jar.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/node/MessagingNode.java" afterPath="$PROJECT_DIR$/cs455/overlay/node/MessagingNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/node/Registry.java" afterPath="$PROJECT_DIR$/cs455/overlay/node/Registry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java" afterPath="$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.java" afterPath="$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,92 +30,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Registry.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cs455/overlay/node/Registry.java">
+      <file leaf-file-name="MessagingNode.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs455/overlay/node/MessagingNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="202" column="45" lean-forward="true" selection-start-line="202" selection-start-column="45" selection-end-line="202" selection-end-column="45" />
+            <state relative-caret-position="221">
+              <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
-                <element signature="method#Registry#0;class#Registry#0" expanded="false" />
-                <element signature="method#onEvent#0;class#Registry#0" expanded="false" />
-                <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
-                <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
-                <element signature="method#onTaskFinished#0;class#Registry#0" expanded="false" />
-                <element signature="method#onTrafficSummary#0;class#Registry#0" expanded="false" />
-                <element signature="method#start#0;class#Registry#0" expanded="false" />
-                <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
-                <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
-                <element signature="method#setupOverlay#0;class#Registry#0" expanded="false" />
-                <element signature="method#listRoutingTables#0;class#Registry#0" expanded="false" />
-                <element signature="method#startOverlay#0;class#Registry#0" expanded="false" />
-                <element signature="method#main#0;class#Registry#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MessagingNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cs455/overlay/node/MessagingNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="19" column="40" lean-forward="true" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#MessagingNode#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#onEvent#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#onRegistrationStatus#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#onDeregistrationStatus#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#receiveNodeManifest#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#relayToNextNode#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#sendTrafficSummary#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#start#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#processConsoleCommand#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#printCountersDiagnostics#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#exitOverlay#0;class#MessagingNode#0" expanded="false" />
-                <element signature="method#main#0;class#MessagingNode#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StatisticsCollectorAndDisplay.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
-              <folding>
-                <element signature="method#StatisticsCollectorAndDisplay#1;class#StatisticsCollectorAndDisplay#0" expanded="false" />
-                <element signature="method#reset#0;class#StatisticsCollectorAndDisplay#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RoutingTablesCache.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="118" column="50" lean-forward="false" selection-start-line="118" selection-start-column="50" selection-end-line="118" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#RoutingTablesCache#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#add#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#remove#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#get#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#size#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#containsKey#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#getEntries#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#getKeys#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#getValues#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#nodeIsSetup#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#nodeIsFinished#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#nodeHasSummary#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#areAllNodesSetup#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#areAllNodesFinished#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#allNodesHaveSummaries#0;class#RoutingTablesCache#0" expanded="false" />
-                <element signature="method#getSummaries#0;class#RoutingTablesCache#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -176,10 +93,11 @@
         <option value="$PROJECT_DIR$/cs455/overlay/routing/RoutingTable.java" />
         <option value="$PROJECT_DIR$/cs455/overlay/util/InteractiveCommandParser.java" />
         <option value="$PROJECT_DIR$/cs455/overlay/wireformats/OverlayNodeReportsTrafficSummary.java" />
-        <option value="$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java" />
-        <option value="$PROJECT_DIR$/cs455/overlay/node/Registry.java" />
         <option value="$PROJECT_DIR$/cs455/overlay/node/MessagingNode.java" />
         <option value="$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.java" />
+        <option value="$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java" />
+        <option value="$PROJECT_DIR$/cs455/overlay/node/Registry.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs455/overlay/node/MessagingNode.java" />
       </list>
     </option>
   </component>
@@ -229,8 +147,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -241,55 +157,56 @@
             <path>
               <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
               <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="cs455" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
               <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="cs455" type="462c0819:PsiDirectoryNode" />
               <item name="overlay" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
               <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="cs455" type="462c0819:PsiDirectoryNode" />
               <item name="overlay" type="462c0819:PsiDirectoryNode" />
               <item name="node" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
-              <item name="cs455" type="462c0819:PsiDirectoryNode" />
-              <item name="overlay" type="462c0819:PsiDirectoryNode" />
-              <item name="routing" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
-              <item name="cs455" type="462c0819:PsiDirectoryNode" />
-              <item name="overlay" type="462c0819:PsiDirectoryNode" />
-              <item name="transport" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
-              <item name="cs455" type="462c0819:PsiDirectoryNode" />
-              <item name="overlay" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CS-455-HW1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CS-455-HW1" type="462c0819:PsiDirectoryNode" />
-              <item name="cs455" type="462c0819:PsiDirectoryNode" />
-              <item name="overlay" type="462c0819:PsiDirectoryNode" />
-              <item name="wireformats" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -300,6 +217,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -313,7 +231,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Registry">
+  <component name="RunManager" selected="Application.MessagingNode">
     <configuration name="MessagingNode" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -343,7 +261,7 @@
       <option name="MAIN_CLASS_NAME" value="cs455.overlay.node.Registry" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="1024" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/src/main/java/" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
@@ -454,8 +372,8 @@
     </list>
     <recent_temporary>
       <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Application.Registry" />
-        <item index="1" class="java.lang.String" itemvalue="Application.MessagingNode" />
+        <item index="0" class="java.lang.String" itemvalue="Application.MessagingNode" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Registry" />
       </list>
     </recent_temporary>
   </component>
@@ -487,12 +405,13 @@
       <workItem from="1581109217445" duration="2553000" />
       <workItem from="1581221876472" duration="20561000" />
       <workItem from="1581382343161" duration="22629000" />
-      <workItem from="1581460766258" duration="3067000" />
+      <workItem from="1581460766258" duration="4422000" />
+      <workItem from="1581477379173" duration="5582000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="154702000" />
+    <option name="totallyTimeSpent" value="161639000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -515,19 +434,19 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32669982" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32669982" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19900498" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38273615" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38273615" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27287853" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -550,34 +469,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingEntry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="30" column="5" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="30" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="45" lean-forward="false" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
-          <folding>
-            <element signature="method#getEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#addEntry#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#clearEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#RoutingTable#0;class#RoutingTable#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cs455/overlay/transport/TCPConnection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="27" column="78" lean-forward="false" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
-          <folding>
-            <element signature="class#TCPSender#0;class#TCPConnection#0" expanded="false" />
-            <element signature="class#TCPReceiverThread#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -585,23 +480,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
-            <element signature="method#Registry#0;class#Registry#0" expanded="false" />
-            <element signature="method#onEvent#0;class#Registry#0" expanded="false" />
-            <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTaskFinished#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTrafficSummary#0;class#Registry#0" expanded="false" />
-            <element signature="method#start#0;class#Registry#0" expanded="false" />
-            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
-            <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
-            <element signature="method#setupOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#listRoutingTables#0;class#Registry#0" expanded="false" />
-            <element signature="method#startOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#main#0;class#Registry#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -616,10 +495,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="27" column="78" lean-forward="false" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
-          <folding>
-            <element signature="class#TCPSender#0;class#TCPConnection#0" expanded="false" />
-            <element signature="class#TCPReceiverThread#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -627,12 +502,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="45" lean-forward="false" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
-          <folding>
-            <element signature="method#getEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#addEntry#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#clearEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#RoutingTable#0;class#RoutingTable#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -640,23 +510,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
-            <element signature="method#Registry#0;class#Registry#0" expanded="false" />
-            <element signature="method#onEvent#0;class#Registry#0" expanded="false" />
-            <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTaskFinished#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTrafficSummary#0;class#Registry#0" expanded="false" />
-            <element signature="method#start#0;class#Registry#0" expanded="false" />
-            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
-            <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
-            <element signature="method#setupOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#listRoutingTables#0;class#Registry#0" expanded="false" />
-            <element signature="method#startOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#main#0;class#Registry#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -671,10 +525,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="23" column="83" lean-forward="true" selection-start-line="23" selection-start-column="83" selection-end-line="23" selection-end-column="83" />
-          <folding>
-            <element signature="class#TCPSender#0;class#TCPConnection#0" expanded="false" />
-            <element signature="class#TCPReceiverThread#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -682,12 +532,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding>
-            <element signature="method#getEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#addEntry#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#clearEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#RoutingTable#0;class#RoutingTable#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -695,23 +540,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="850">
           <caret line="55" column="71" lean-forward="false" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
-            <element signature="method#Registry#0;class#Registry#0" expanded="false" />
-            <element signature="method#onEvent#0;class#Registry#0" expanded="false" />
-            <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTaskFinished#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTrafficSummary#0;class#Registry#0" expanded="false" />
-            <element signature="method#start#0;class#Registry#0" expanded="false" />
-            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
-            <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
-            <element signature="method#setupOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#listRoutingTables#0;class#Registry#0" expanded="false" />
-            <element signature="method#startOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#main#0;class#Registry#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -726,12 +555,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="105" lean-forward="false" selection-start-line="25" selection-start-column="105" selection-end-line="25" selection-end-column="105" />
-          <folding>
-            <element signature="method#getEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#addEntry#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#clearEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#RoutingTable#0;class#RoutingTable#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -754,10 +578,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
           <caret line="55" column="48" lean-forward="true" selection-start-line="55" selection-start-column="48" selection-end-line="55" selection-end-column="48" />
-          <folding>
-            <element signature="class#TCPSender#0;class#TCPConnection#0" expanded="false" />
-            <element signature="class#TCPReceiverThread#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -780,10 +600,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
-          <folding>
-            <element signature="class#TCPSender#0;class#TCPConnection#0" expanded="false" />
-            <element signature="class#TCPReceiverThread#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -791,23 +607,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
-            <element signature="method#Registry#0;class#Registry#0" expanded="false" />
-            <element signature="method#onEvent#0;class#Registry#0" expanded="false" />
-            <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTaskFinished#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTrafficSummary#0;class#Registry#0" expanded="false" />
-            <element signature="method#start#0;class#Registry#0" expanded="false" />
-            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
-            <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
-            <element signature="method#setupOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#listRoutingTables#0;class#Registry#0" expanded="false" />
-            <element signature="method#startOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#main#0;class#Registry#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -935,10 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="28" column="92" lean-forward="true" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="92" />
-          <folding>
-            <element signature="class#TCPSender#0;class#TCPConnection#0" expanded="false" />
-            <element signature="class#TCPReceiverThread#0;class#TCPConnection#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -949,29 +745,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cs455/overlay/transport/TCPConnectionsCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#remove#1;class#TCPConnectionsCache#0" expanded="false" />
-            <element signature="method#get#1;class#TCPConnectionsCache#0" expanded="false" />
-            <element signature="method#closeAll#0;class#TCPConnectionsCache#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="37" lean-forward="false" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
-          <folding>
-            <element signature="method#getEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#addEntry#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#clearEntries#0;class#RoutingTable#0" expanded="false" />
-            <element signature="method#RoutingTable#0;class#RoutingTable#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -979,10 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="81" column="1" lean-forward="true" selection-start-line="81" selection-start-column="1" selection-end-line="81" selection-end-column="1" />
-          <folding>
-            <element signature="method#getBytes#0;class#OverlayNodeSendsData#0" expanded="false" />
-            <element signature="method#OverlayNodeSendsData#1;class#OverlayNodeSendsData#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -997,11 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="655">
           <caret line="104" column="55" lean-forward="false" selection-start-line="104" selection-start-column="55" selection-end-line="104" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getBytes#0;class#OverlayNodeReportsTrafficSummary#0" expanded="false" />
-            <element signature="method#OverlayNodeReportsTrafficSummary#0;class#OverlayNodeReportsTrafficSummary#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1017,89 +786,63 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="10" lean-forward="false" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="44" lean-forward="false" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cs455/overlay/transport/TCPConnectionsCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="12" column="3" lean-forward="true" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cs455/overlay/node/MessagingNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="147" column="67" lean-forward="false" selection-start-line="147" selection-start-column="67" selection-end-line="147" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cs455/overlay/node/Registry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="202" column="45" lean-forward="true" selection-start-line="202" selection-start-column="45" selection-end-line="202" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
-            <element signature="method#Registry#0;class#Registry#0" expanded="false" />
-            <element signature="method#onEvent#0;class#Registry#0" expanded="false" />
-            <element signature="method#registerMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#deregisterMessagingNode#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTaskFinished#0;class#Registry#0" expanded="false" />
-            <element signature="method#onTrafficSummary#0;class#Registry#0" expanded="false" />
-            <element signature="method#start#0;class#Registry#0" expanded="false" />
-            <element signature="method#processConsoleCommand#0;class#Registry#0" expanded="false" />
-            <element signature="method#listMessagingNodes#0;class#Registry#0" expanded="false" />
-            <element signature="method#setupOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#listRoutingTables#0;class#Registry#0" expanded="false" />
-            <element signature="method#startOverlay#0;class#Registry#0" expanded="false" />
-            <element signature="method#main#0;class#Registry#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="748">
+          <caret line="334" column="5" lean-forward="true" selection-start-line="334" selection-start-column="5" selection-end-line="334" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cs455/overlay/routing/RoutingTablesCache.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs455/overlay/node/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="118" column="50" lean-forward="false" selection-start-line="118" selection-start-column="50" selection-end-line="118" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#RoutingTablesCache#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#add#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#remove#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#get#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#size#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#containsKey#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#getEntries#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#getKeys#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#getValues#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#nodeIsSetup#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#nodeIsFinished#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#nodeHasSummary#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#areAllNodesSetup#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#areAllNodesFinished#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#allNodesHaveSummaries#0;class#RoutingTablesCache#0" expanded="false" />
-            <element signature="method#getSummaries#0;class#RoutingTablesCache#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cs455/overlay/node/MessagingNode.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs455/overlay/node/MessagingNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="40" lean-forward="true" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+        <state relative-caret-position="221">
+          <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#MessagingNode#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#onEvent#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#onRegistrationStatus#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#onDeregistrationStatus#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#receiveNodeManifest#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#relayToNextNode#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#sendTrafficSummary#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#start#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#processConsoleCommand#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#printCountersDiagnostics#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#exitOverlay#0;class#MessagingNode#0" expanded="false" />
-            <element signature="method#main#0;class#MessagingNode#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cs455/overlay/util/StatisticsCollectorAndDisplay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
-          <folding>
-            <element signature="method#StatisticsCollectorAndDisplay#1;class#StatisticsCollectorAndDisplay#0" expanded="false" />
-            <element signature="method#reset#0;class#StatisticsCollectorAndDisplay#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1115,7 +858,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
