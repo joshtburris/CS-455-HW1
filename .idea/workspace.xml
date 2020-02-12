@@ -2,21 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1b29e4f-a422-4be2-b6e1-230202cea5dc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.README.md.kate-swp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/messagingNodeJar/MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/registryJar/MANIFEST.MF" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/java/main/cs455/overlay/node/Registry.class" afterPath="$PROJECT_DIR$/build/classes/java/main/cs455/overlay/node/Registry.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/libs/CS-455-HW1.jar" afterPath="$PROJECT_DIR$/build/libs/CS-455-HW1.jar" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/CS-455-HW1.iml" afterPath="$PROJECT_DIR$/.idea/modules/CS-455-HW1.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/CS-455-HW1_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/CS-455-HW1_main.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/CS-455-HW1_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/CS-455-HW1_test.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cs455/overlay/node/MessagingNode.java" afterPath="$PROJECT_DIR$/src/main/java/cs455/overlay/node/MessagingNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cs455/overlay/node/Registry.java" afterPath="$PROJECT_DIR$/src/main/java/cs455/overlay/node/Registry.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -38,8 +31,8 @@
       <file leaf-file-name="Registry.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs455/overlay/node/Registry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="334" column="9" lean-forward="true" selection-start-line="334" selection-start-column="9" selection-end-line="334" selection-end-column="9" />
+            <state relative-caret-position="544">
+              <caret line="293" column="20" lean-forward="false" selection-start-line="293" selection-start-column="20" selection-end-line="293" selection-end-column="20" />
               <folding>
                 <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
                 <element signature="method#Registry#0;class#Registry#0" expanded="false" />
@@ -172,10 +165,6 @@
                 <option name="name" value="dependentComponents" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="messagingNodeJar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Displays all buildscript dependencies declared in root project 'CS-455-HW1'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildEnvironment" />
@@ -184,10 +173,6 @@
                 <option name="description" value="Generates Gradle wrapper files." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="wrapper" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="registryJar" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Assembles test classes." />
@@ -296,7 +281,10 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4744473975000" />
+        <entry key="$PROJECT_DIR$" value="4744496238000" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="3468438516" />
+        <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="1061797022" />
+        <entry key="$PROJECT_DIR$/settings.gradle" value="291925851" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -638,12 +626,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1581491322728</updated>
-      <workItem from="1581491325509" duration="3986000" />
+      <workItem from="1581491325509" duration="4521000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3986000" />
+    <option name="totallyTimeSpent" value="4521000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="31" width="1280" height="1362" extended-state="0" />
@@ -661,7 +649,7 @@
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14739414" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37540716" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -724,8 +712,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs455/overlay/node/Registry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="334" column="9" lean-forward="true" selection-start-line="334" selection-start-column="9" selection-end-line="334" selection-end-column="9" />
+        <state relative-caret-position="544">
+          <caret line="293" column="20" lean-forward="false" selection-start-line="293" selection-start-column="20" selection-end-line="293" selection-end-column="20" />
           <folding>
             <element signature="method#getUniqueID#0;class#Registry#0" expanded="false" />
             <element signature="method#Registry#0;class#Registry#0" expanded="false" />
