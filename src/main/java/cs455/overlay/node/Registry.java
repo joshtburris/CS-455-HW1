@@ -25,6 +25,20 @@ public class Registry implements Node {
         return id;
     }
     
+    /**
+     * Author: Joshua Burris
+     * Date: 02/19/2020
+     *
+     * There is exactly one registry in the system. The registry provides the following functions:
+     *  A. Allows messaging nodes to register themselves. This is performed when a messaging node starts up for the
+     *      first time.
+     *  B. Assign random identifiers (between 0-127) to nodes within the system; the registry also has to ensure that
+     *      two nodes are not assigned the same IDs i.e., there should be no collisions in the ID space.
+     *  C. Allows messaging nodes to deregister themselves. This is performed when a messaging node leaves the overlay.
+     *  D. Enables the construction of the overlay by populating the routing table at the messaging nodes. The routing
+     *      table dictates the connections that a messaging node initiates with other messaging nodes in the system.
+     * @param portnum
+     */
     public Registry(int portnum) {
         tablesCache = new RoutingTablesCache();
         connectionsCache = new TCPConnectionsCache();
@@ -127,7 +141,10 @@ public class Registry implements Node {
         try {
             messagingNode.sendData(report.getBytes());
         } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
+            // In the rare case that a messaging node fails just after it sends a registration request, the registry
+            // will not be able to communicate with it. In this case, the entry for the messaging node should be
+            // removed from the data structure maintained at the registry.
+            tablesCache.remove(nodeId);
         }
         
     }
@@ -319,10 +336,18 @@ public class Registry implements Node {
                 }
                 startOverlay(numMessages);
                 return true;
-            case "exit-overlay":
-                return false;
+            default:
+                System.out.println("\nUsage:\n");
+                System.out.println("\tlist-messaging-nodes\n\t\tResults in information about the messaging nodes " +
+                        "(hostname, port-number, and node ID) being listed.");
+                System.out.println("\tsetup-overlay <number-of-routing-table-entries>\n\t\tResults in the registry " +
+                        "setting up the overlay.");
+                System.out.println("\tlist-routing-tables\n\t\tLists information about the computed routing tables " +
+                        "for each node in the overlay.");
+                System.out.println("\tstart <number-of-messages>\n\t\tResults in the registry sending the initiate " +
+                        "task to all nodes within the overlay.\n");
+                return true;
         }
-        return true;
     }
     
     private void listMessagingNodes() {

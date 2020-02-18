@@ -271,8 +271,14 @@ public class MessagingNode implements Node {
             case "exit-overlay":
                 exitOverlay();
                 return false;
+            default:
+                System.out.println("\nUsage:\n");
+                System.out.println("\tprint-counters-and-diagnostics\n\t\tPrints information about the number of " +
+                        "messages that have been sent, received, and relayed along with the sums for the messages " +
+                        "that have been sent from and received at the node.");
+                System.out.println("\texit-overlay\n\t\tThis allows a messaging node to exit the overlay.\n");
+                return true;
         }
-        return true;
     }
     
     private void printCountersDiagnostics() {
